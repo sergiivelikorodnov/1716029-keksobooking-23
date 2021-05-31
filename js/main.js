@@ -1,7 +1,7 @@
 //***https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random */
 
 const getRundomNumber = (min, max, exp = 0) => {
-  if (min < 0 || max < 0 || exp <= 0) {
+  if (min < 0 || max < 0 || exp < 0) {
     return 'Ошибка. Все числа должны быть положительные';
   }
 
@@ -20,4 +20,4 @@ const getRandomInt = (min, max) => {
 const getRandomFloat = (min, max, exp) => getRundomNumber(min, max, exp);
 
 getRandomInt(0, 3);
-getRandomFloat(0, 3, 3);
+getRandomFloat(0, 3, 0);
