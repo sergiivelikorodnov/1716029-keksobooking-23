@@ -1,3 +1,10 @@
+const LAT_MIN = 35.65000;
+const LAT_MAX = 35.70000;
+const LNG_MIN = 35.65000;
+const LNG_MAX = 35.65000;
+const SHUFFLE_MIN = 100;
+const SHUFFLE_MAX = 100;
+
 const PROPERTY_TYPE = [
   'palace',
   'flat',
@@ -57,20 +64,20 @@ const getRandomInt = (min, max) => getRandomFloat(min, max, 0);
  * Get Location coordinates
  */
 
-const getLocation = () => [getRandomFloat(35.65000, 35.70000, 5), getRandomFloat(139.70000, 139.80000, 5)];
+const getLocation = () => [getRandomFloat(LAT_MIN, LAT_MAX, 5), getRandomFloat(LNG_MIN, LNG_MAX, 5)];
 
 /**
  * Shuffle Array function
  */
 
-const shuffle = (arr) => arr.sort(() => Math.round(Math.random() * 100) - 50).slice(0, arr.length - getRandomInt(0, arr.length - 1));
+const shuffle = (arr) => arr.sort(() => Math.round(Math.random() * SHUFFLE_MAX) - SHUFFLE_MIN).slice(0, arr.length - getRandomInt(0, arr.length - 1));
 
 /**
  * Get Random Value from Any Array
  */
 
-const getRandomValue = function (element) {
-  return element[getRandomInt(0, element.length - 1)];
+const getRandomValue = function (elements) {
+  return elements[getRandomInt(0, elements.length - 1)];
 };
 
 /**
@@ -79,7 +86,6 @@ const getRandomValue = function (element) {
 const getSingleProperty = () => {
   const locationPosition = getLocation();
   const [lat, lng] = locationPosition;
-  //console.log(lat, lng);
 
   const singleProperty = {
     avatar: `img/avatars/user0${getRandomInt(1, 8)}.png`,
@@ -106,6 +112,3 @@ const getSingleProperty = () => {
 };
 
 const allProperties = Array.from({ length: ALL_PROPERTIES_LENGTH }, () => getSingleProperty());
-
-
-//console.log(allProperties);
