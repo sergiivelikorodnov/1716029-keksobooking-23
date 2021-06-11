@@ -1,9 +1,4 @@
-const LAT_MIN = 35.65000;
-const LAT_MAX = 35.70000;
-const LNG_MIN = 35.65000;
-const LNG_MAX = 35.65000;
-const SHUFFLE_MIN = 100;
-const SHUFFLE_MAX = 100;
+import { LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, SHUFFLE_MIN, SHUFFLE_MAX } from './constants.js';
 
 /**
  * Random Float and Intenger function

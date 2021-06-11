@@ -1,41 +1,5 @@
 import { getRandomInt, getLocation, shuffle, getRandomValue } from './utils.js';
-
-const PROPERTY_TYPE = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
-
-const CHECKIN_TIME = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const CHECKOUT_TIME = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const ROOM_FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner',
-];
-
-const ROOM_PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-
-const ALL_PROPERTIES_LENGTH = 10;
+import { PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH } from './constants.js';
 
 /**
  * Main Property Object
@@ -70,3 +34,4 @@ const getSingleProperty = () => {
 
 const allProperties = Array.from({ length: ALL_PROPERTIES_LENGTH }, () => getSingleProperty());
 
+console.log(allProperties);
