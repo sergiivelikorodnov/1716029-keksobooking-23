@@ -1,84 +1,5 @@
-const LAT_MIN = 35.65000;
-const LAT_MAX = 35.70000;
-const LNG_MIN = 35.65000;
-const LNG_MAX = 35.65000;
-const SHUFFLE_MIN = 100;
-const SHUFFLE_MAX = 100;
-
-const PROPERTY_TYPE = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
-
-const CHECKIN_TIME = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const CHECKOUT_TIME = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const ROOM_FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner',
-];
-
-const ROOM_PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-
-const ALL_PROPERTIES_LENGTH = 10;
-
-/**
- * Random Float and Intenger function
- */
-
-const getRandomFloat = (min, max, exp) => {
-  if (min < 0 || max < 0 || exp < 0) {
-    return 'Ошибка. Все числа должны быть положительные';
-  }
-
-  if (min >= max) {
-    return 'Ошибка. Второе число должно быть больше первого';
-  }
-
-  return (Math.random() * (max - min) + min).toFixed(exp);
-};
-
-const getRandomInt = (min, max) => getRandomFloat(min, max, 0);
-
-/**
- * Get Location coordinates
- */
-
-const getLocation = () => [getRandomFloat(LAT_MIN, LAT_MAX, 5), getRandomFloat(LNG_MIN, LNG_MAX, 5)];
-
-/**
- * Shuffle Array function
- */
-
-const shuffle = (arr) => arr.sort(() => Math.round(Math.random() * SHUFFLE_MAX) - SHUFFLE_MIN).slice(0, arr.length - getRandomInt(0, arr.length - 1));
-
-/**
- * Get Random Value from Any Array
- */
-
-const getRandomValue = function (elements) {
-  return elements[getRandomInt(0, elements.length - 1)];
-};
+import { getRandomInt, getLocation, shuffle, getRandomValue } from './utils.js';
+import { PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH } from './constants.js';
 
 /**
  * Main Property Object
@@ -112,3 +33,5 @@ const getSingleProperty = () => {
 };
 
 const allProperties = Array.from({ length: ALL_PROPERTIES_LENGTH }, () => getSingleProperty());
+
+console.log(allProperties);
