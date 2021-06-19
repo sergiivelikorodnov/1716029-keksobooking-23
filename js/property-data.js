@@ -1,11 +1,10 @@
-/* import { getRandomInt, getLocation, shuffle, getRandomValue } from './utils.js';
-import { PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH } from './constants.js'; */
-import './offer.js';
+import { getRandomInt, getLocation, shuffle, getRandomValue } from './utils.js';
+import { PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH } from './constants.js';
 
 /**
  * Main Property Object
  */
-/* const getSingleProperty = () => {
+const getSingleProperty = () => {
   const locationPosition = getLocation();
   const [lat, lng] = locationPosition;
 
@@ -24,15 +23,14 @@ import './offer.js';
       guests: getRandomInt(0, 8),
       checkin: getRandomValue(CHECKIN_TIME),
       checkout: getRandomValue(CHECKOUT_TIME),
-      features: shuffle(ROOM_FEATURES),
+      features: shuffle(ROOM_FEATURES).join(', '),
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       photos: shuffle(ROOM_PHOTOS),
     },
   };
-
   return singleProperty;
 };
 
-const allProperties = Array.from({ length: ALL_PROPERTIES_LENGTH }, () => getSingleProperty()); */
+const allProperties = Array.from({ length: ALL_PROPERTIES_LENGTH }, () => getSingleProperty());
 
-
+export { allProperties };

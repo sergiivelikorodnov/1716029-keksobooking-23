@@ -35,9 +35,9 @@ const ROOM_PHOTOS = [
 
 const LAT_MIN = 35.65000;
 const LAT_MAX = 35.70000;
-const LNG_MIN = 35.65000;
-const LNG_MAX = 35.65000;
-const SHUFFLE_MIN = 100;
+const LNG_MIN = 139.70000;
+const LNG_MAX = 139.80000;
+const SHUFFLE_MIN = 50;
 const SHUFFLE_MAX = 100;
 
 const ALL_PROPERTIES_LENGTH = 10;
