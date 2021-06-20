@@ -13,11 +13,10 @@ const getRandomFloat = (min, max, exp) => {
     return 'Ошибка. Второе число должно быть больше первого';
   }
 
-  return (Math.random() * (max - min) + min + 1).toFixed(exp);
+  return (Math.random() * (max - min) + min).toFixed(exp);
 };
 
 const getRandomInt = (min, max) => getRandomFloat(min, max, 0);
-
 /**
  * Get Location coordinates
  */
@@ -28,7 +27,9 @@ const getLocation = () => [getRandomFloat(LAT_MIN, LAT_MAX, 5), getRandomFloat(L
  * Shuffle Array function
  */
 
-const shuffle = (arr) => arr.sort(() => Math.round(Math.random() * SHUFFLE_MAX) - SHUFFLE_MIN).slice(0, arr.length - getRandomInt(1, arr.length - 1));
+const shuffle = (arr) => arr
+  .sort(() => Math.round(Math.random() * SHUFFLE_MAX) - SHUFFLE_MIN)
+  .slice(0, getRandomInt(1, arr.length));
 
 /**
  * Get Random Value from Any Array

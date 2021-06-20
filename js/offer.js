@@ -1,63 +1,66 @@
 import { allProperties } from './property-data.js';
+import { getRandomValue } from './utils.js';
 
 const offerTemplate = document.querySelector('#card').content;
 const mapCanvas = document.querySelector('#map-canvas');
-let offerTitle = offerTemplate.querySelector('.popup__title');
-let offerAddress = offerTemplate.querySelector('.popup__text--address');
-let offerPrice = offerTemplate.querySelector('.popup__text--price');
-let offerType = offerTemplate.querySelector('.popup__type');
-let offerCapacity = offerTemplate.querySelector('.popup__text--capacity');
-let offerTime = offerTemplate.querySelector('.popup__text--time');
-let offerFeatures = offerTemplate.querySelector('.popup__features');
-let offerDescription = offerTemplate.querySelector('.popup__description');
-let offerPhotos = offerTemplate.querySelector('.popup__photos');
-let offerAvatar = offerTemplate.querySelector('.popup__avatar');
 
-const allOffers = document.createDocumentFragment();
+const offerBox = document.createDocumentFragment();
+const randomOffer = getRandomValue(allProperties);
 
-//console.log(allProperties[0].avatar)
-const offerCards = (properties) => {
-  properties.forEach((singleOffer) => {
-    const offerCard = offerTemplate.cloneNode(true);
-    const rooms = () => {
-      if (singleOffer.offer.rooms === '1') {
-        return 'комната для ';
-      } else if (singleOffer.offer.rooms < 5) {
-        return 'комнаты для ';
-      } else {
-        return 'комнат для ';
+const offerCards = (singleOffer) => {
+  const offerCard = offerTemplate.cloneNode(true);
+  const rooms = () => {
+    if (singleOffer.offer.rooms === '1') {
+      return 'комната для ';
+    } else if (singleOffer.offer.rooms < 5) {
+      return 'комнаты для ';
+    } else {
+      return 'комнат для ';
+    }
+  };
+
+  const guests = () => {
+    if (singleOffer.offer.guests === '1') {
+      return 'гостя';
+    } else {
+      return 'гостей';
+    }
+  };
+
+  const photoCard = offerCard.querySelector('.popup__photo');
+  offerCard.querySelector('.popup__title').textContent = singleOffer.offer.title;
+  offerCard.querySelector('.popup__text--address').textContent = singleOffer.offer.address;
+  offerCard.querySelector('.popup__text--price').textContent = `${singleOffer.offer.price} ₽/ночь`;
+  offerCard.querySelector('.popup__type').textContent = singleOffer.offer.type[1];
+  offerCard.querySelector('.popup__text--capacity').textContent = `${singleOffer.offer.rooms} ${rooms()} ${singleOffer.offer.guests} ${guests()}`;
+  offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${singleOffer.offer.checkin}, выезд до ${singleOffer.offer.checkout}`;
+
+  /**
+   * Features List
+   */
+  const offerFeaturesList = offerTemplate.querySelector('.popup__features');
+  const modifiers = singleOffer.offer.features.map((feature) => `popup__feature--${feature}`);
+  offerFeaturesList.querySelectorAll('.popup__feature')
+    .forEach((item) => {
+      const modifier = item.classList[1];
+      if (!modifiers.includes(modifier)) {
+        item.remove();
       }
-    };
-
-    const guests = () => {
-      if (singleOffer.offer.guests === '1') {
-        return 'гостя';
-      } else {
-        return 'гостей';
-      }
-    };
-
-    offerCard.querySelector('.popup__title').textContent = singleOffer.offer.title;
-    offerCard.querySelector('.popup__text--address').textContent = singleOffer.offer.address;
-    offerCard.querySelector('.popup__text--price').textContent = `${singleOffer.offer.price} ₽/ночь`;
-    //offerCard.querySelector('.popup__type').textContent =
-    offerCard.querySelector('.popup__text--capacity').textContent = `${singleOffer.offer.rooms} ${rooms()} ${singleOffer.offer.guests} ${guests()}`;
-    offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${singleOffer.offer.checkin}, выезд до ${singleOffer.offer.checkout}`;
-    offerCard.querySelector('.popup__features').textContent = singleOffer.offer.features;
-    offerCard.querySelector('.popup__description').textContent = singleOffer.offer.description;
-    offerCard.querySelector('.popup__photo').src = singleOffer.offer.photos[0];
-    console.log(singleOffer.offer.photos);
-    singleOffer.offer.photos.forEach((photo) => {
-      const photoCard = offerCard.querySelector('.popup__photo');
-      photoCard.src = photo;
-      photoCard.cloneNode(false)
-      offerCard.querySelector('.popup__photos').appendChild(photoCard);
     });
-    offerCard.querySelector('.popup__avatar').src = singleOffer.avatar;
-    allOffers.appendChild(offerCard);
+
+  offerCard.querySelector('.popup__description').textContent = singleOffer.offer.description;
+  singleOffer.offer.photos.forEach((photo) => {
+    const photoNode = photoCard.cloneNode(true);
+    photoNode.src = photo;
+    offerCard.querySelector('.popup__photos').appendChild(photoNode);
   });
+  photoCard.remove();
+  offerCard.querySelector('.popup__avatar').src = singleOffer.avatar;
+  offerBox.appendChild(offerCard);
 };
-offerCards(allProperties);
 
 
-mapCanvas.appendChild(allOffers);
+offerCards(randomOffer);
+
+
+mapCanvas.appendChild(offerBox);
