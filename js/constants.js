@@ -1,10 +1,10 @@
-const PROPERTY_TYPE = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
+const PROPERTY_TYPE = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
 
 const CHECKIN_TIME = [
   '12:00',
@@ -35,11 +35,10 @@ const ROOM_PHOTOS = [
 
 const LAT_MIN = 35.65000;
 const LAT_MAX = 35.70000;
-const LNG_MIN = 35.65000;
-const LNG_MAX = 35.65000;
-const SHUFFLE_MIN = 100;
-const SHUFFLE_MAX = 100;
+const LNG_MIN = 139.70000;
+const LNG_MAX = 139.80000;
+const SHUFFLE_MIN = 0.5;
 
 const ALL_PROPERTIES_LENGTH = 10;
 
-export { PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, SHUFFLE_MIN, SHUFFLE_MAX };
+export { PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, SHUFFLE_MIN };

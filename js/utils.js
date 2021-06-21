@@ -1,4 +1,4 @@
-import { LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, SHUFFLE_MIN, SHUFFLE_MAX } from './constants.js';
+import { LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, SHUFFLE_MIN } from './constants.js';
 
 /**
  * Random Float and Intenger function
@@ -17,7 +17,6 @@ const getRandomFloat = (min, max, exp) => {
 };
 
 const getRandomInt = (min, max) => getRandomFloat(min, max, 0);
-
 /**
  * Get Location coordinates
  */
@@ -28,7 +27,9 @@ const getLocation = () => [getRandomFloat(LAT_MIN, LAT_MAX, 5), getRandomFloat(L
  * Shuffle Array function
  */
 
-const shuffle = (arr) => arr.sort(() => Math.round(Math.random() * SHUFFLE_MAX) - SHUFFLE_MIN).slice(0, arr.length - getRandomInt(0, arr.length - 1));
+const shuffle = (arr) => arr
+  .sort(() => Math.random() - SHUFFLE_MIN)
+  .slice(0, getRandomInt(1, arr.length));
 
 /**
  * Get Random Value from Any Array
