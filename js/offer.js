@@ -8,38 +8,32 @@ const offerBox = document.createDocumentFragment();
 const randomOffer = getRandomValue(allProperties);
 
 const offerCards = (singleOffer) => {
+  const { title, address, price, rooms, type, guests, checkout, checkin, features, description, photos } = singleOffer.offer;
+
   const offerCard = offerTemplate.cloneNode(true);
-  const rooms = () => {
+  const roomsText = () => {
     if (singleOffer.offer.rooms === '1') {
       return 'комната для ';
     } else if (singleOffer.offer.rooms < 5) {
       return 'комнаты для ';
-    } else {
-      return 'комнат для ';
-    }
+    } return 'комнат для ';
   };
 
-  const guests = () => {
-    if (singleOffer.offer.guests === '1') {
-      return 'гостя';
-    } else {
-      return 'гостей';
-    }
-  };
+  const guestsText = (guests === '1') ? 'гостя' : 'гостей';
 
   const photoCard = offerCard.querySelector('.popup__photo');
-  offerCard.querySelector('.popup__title').textContent = singleOffer.offer.title;
-  offerCard.querySelector('.popup__text--address').textContent = singleOffer.offer.address;
-  offerCard.querySelector('.popup__text--price').textContent = `${singleOffer.offer.price} ₽/ночь`;
-  offerCard.querySelector('.popup__type').textContent = singleOffer.offer.type[1];
-  offerCard.querySelector('.popup__text--capacity').textContent = `${singleOffer.offer.rooms} ${rooms()} ${singleOffer.offer.guests} ${guests()}`;
-  offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${singleOffer.offer.checkin}, выезд до ${singleOffer.offer.checkout}`;
+  offerCard.querySelector('.popup__title').textContent = title;
+  offerCard.querySelector('.popup__text--address').textContent = address;
+  offerCard.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
+  offerCard.querySelector('.popup__type').textContent = type[1];
+  offerCard.querySelector('.popup__text--capacity').textContent = `${rooms} ${roomsText()} ${guests} ${guestsText}`;
+  offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 
   /**
    * Features List
    */
   const offerFeaturesList = offerTemplate.querySelector('.popup__features');
-  const modifiers = singleOffer.offer.features.map((feature) => `popup__feature--${feature}`);
+  const modifiers = features.map((feature) => `popup__feature--${feature}`);
   offerFeaturesList.querySelectorAll('.popup__feature')
     .forEach((item) => {
       const modifier = item.classList[1];
@@ -48,8 +42,8 @@ const offerCards = (singleOffer) => {
       }
     });
 
-  offerCard.querySelector('.popup__description').textContent = singleOffer.offer.description;
-  singleOffer.offer.photos.forEach((photo) => {
+  offerCard.querySelector('.popup__description').textContent = description;
+  photos.forEach((photo) => {
     const photoNode = photoCard.cloneNode(true);
     photoNode.src = photo;
     offerCard.querySelector('.popup__photos').appendChild(photoNode);

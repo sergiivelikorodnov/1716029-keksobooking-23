@@ -10,10 +10,7 @@ const getSingleProperty = () => {
   const [lat, lng] = locationPosition;
   const singleProperty = {
     avatar: `img/avatars/user0${getRandomInt(1, 8)}.png`,
-    location: {
-      lat: lat,
-      lng: lng,
-    },
+    location: { lat, lng },
     offer: {
       title: 'Заголовок объявления',
       price: getRandomInt(0, 100000),
