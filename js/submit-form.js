@@ -5,6 +5,10 @@ const priceRoom = document.querySelector('#price');
 const typeRoom = document.querySelector('#type');
 const roomNumber = document.querySelector('#room_number');
 const roomCapacity = document.querySelector('#capacity');
+const roomAddress = document.querySelector('#address');
+
+roomAddress.value = '35.68950, 139.70171';
+
 let minPriceRoom = MIN_FLAT_PRICE;
 let roomNumberValue = DEFAULT_ROOM_NUMBER;
 let roomCapacityValue = DEFAULT_ROOM_CAPACITY;
