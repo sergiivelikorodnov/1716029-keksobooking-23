@@ -1,4 +1,4 @@
-import { MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, MIN_BUNGALOW_PRICE, MIN_FLAT_PRICE, MIN_HOTEL_PRICE, MIN_HOUSE_PRICE, MIN_PALACE_PRICE } from './constants.js';
+import { MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, MIN_BUNGALOW_PRICE, MIN_FLAT_PRICE, MIN_HOTEL_PRICE, MIN_HOUSE_PRICE, MIN_PALACE_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER } from './constants.js';
 
 const offerName = document.querySelector('#title');
 const priceRoom = document.querySelector('#price');
@@ -6,8 +6,13 @@ const typeRoom = document.querySelector('#type');
 const roomNumber = document.querySelector('#room_number');
 const roomCapacity = document.querySelector('#capacity');
 let minPriceRoom = MIN_FLAT_PRICE;
-let roomNumberValue = 1;
-let roomCapacityValue = 3;
+let roomNumberValue = DEFAULT_ROOM_NUMBER;
+let roomCapacityValue = DEFAULT_ROOM_CAPACITY;
+
+if (roomNumberValue < roomCapacityValue) {
+  roomCapacity.setCustomValidity('Слишком много гостей. Выберите меньше значение');
+  roomCapacity.reportValidity();
+}
 
 offerName.addEventListener('input', () => {
   const valueLength = offerName.value.length;
@@ -56,8 +61,10 @@ roomNumber.addEventListener('change', () => {
   roomNumberValue = Number(roomNumber.value);
   if (roomNumberValue < roomCapacityValue) {
     roomCapacity.setCustomValidity('Слишком много гостей. Выберите меньше значение');
-  } else if (roomNumberValue === 100) {
+  } else if (roomNumberValue === MAX_ROOM_NUMBER && roomCapacityValue !== 0) {
     roomCapacity.setCustomValidity('Выберите опцию "Не для гостей"');
+  } else if (roomNumberValue < MAX_ROOM_NUMBER && roomCapacityValue === 0) {
+    roomCapacity.setCustomValidity('Выберите количество гостей');
   } else {
     roomCapacity.setCustomValidity('');
   }
@@ -65,12 +72,13 @@ roomNumber.addEventListener('change', () => {
 });
 
 roomCapacity.addEventListener('change', () => {
-  roomCapacityValue = roomCapacity.value;
+  roomCapacityValue = Number(roomCapacity.value);
   if (roomNumberValue < roomCapacityValue) {
     roomCapacity.setCustomValidity('Слишком много гостей. Выберите меньше значение');
+  } else if (roomNumberValue < MAX_ROOM_NUMBER && roomCapacityValue === 0) {
+    roomCapacity.setCustomValidity('Выберите количество гостей');
   } else {
     roomCapacity.setCustomValidity('');
   }
-
   roomCapacity.reportValidity();
 });
