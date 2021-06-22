@@ -7,7 +7,7 @@ const roomNumber = document.querySelector('#room_number');
 const roomCapacity = document.querySelector('#capacity');
 const roomAddress = document.querySelector('#address');
 
-roomAddress.value = '35.68950, 139.70171';
+roomAddress.setAttribute('value', '35.68950, 139.70171'); пше
 
 let minPriceRoom = MIN_FLAT_PRICE;
 let roomNumberValue = DEFAULT_ROOM_NUMBER;
