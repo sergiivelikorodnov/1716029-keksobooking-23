@@ -1,5 +1,5 @@
 
-import { MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, MIN_BUNGALOW_PRICE, MIN_FLAT_PRICE, MIN_HOTEL_PRICE, MIN_HOUSE_PRICE, MIN_PALACE_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, ROOM_PRICE_VAL_MESSAGE } from './constants.js';
+import { MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, MIN_BUNGALOW_PRICE, MIN_FLAT_PRICE, MIN_HOTEL_PRICE, MIN_HOUSE_PRICE, MIN_PALACE_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE } from './constants.js';
 
 const offerName = document.querySelector('#title');
 const priceRoom = document.querySelector('#price');
@@ -49,15 +49,16 @@ typeRoom.addEventListener('change', () => {
 
 priceRoom.addEventListener('input', () => {
   const valuePrice = priceRoom.value;
+  let message;
 
   if (valuePrice > MAX_ROOM_PRICE) {
-    priceRoom.setCustomValidity(`Цена не может быть больше ${MAX_ROOM_PRICE} руб.`);
+    message = `Цена не может быть больше ${MAX_ROOM_PRICE} руб.`;
   } else if (valuePrice < minPriceRoom) {
-    priceRoom.setCustomValidity(`Цена не может быть меньше ${minPriceRoom} руб.`);
+    message = `Цена не может быть меньше ${minPriceRoom} руб.`;
   } else {
-    priceRoom.setCustomValidity('');
+    message = '';
   }
-
+  priceRoom.setCustomValidity(message);
   priceRoom.reportValidity();
 });
 
