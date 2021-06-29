@@ -1,6 +1,7 @@
 const adForm = document.querySelector('.ad-form');
 const fieldsets = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
+const selectors = mapFilters.querySelectorAll('select');
 
 /**
    * Deactivate Form
@@ -13,6 +14,10 @@ const deactivateForm = () => {
   });
 
   mapFilters.classList.add('map__filters--disabled');
+
+  selectors.forEach((selector) => {
+    selector.disabled = true;
+  });
 };
 
 /**
@@ -26,6 +31,10 @@ const activateForm = () => {
   });
 
   mapFilters.classList.remove('map__filters--disabled');
+
+  selectors.forEach((selector) => {
+    selector.disabled = false;
+  });
 };
 /** */
 
