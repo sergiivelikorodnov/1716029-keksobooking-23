@@ -67,4 +67,16 @@ mainPinMarker.on('moveend', (evt) => {
   roomAddress.value = `${address.lat.toFixed(5)}, ${address.lng.toFixed(5)}`;
 });
 
-export { roomAddress };
+const resetMap = () => {
+  map.setView({
+    lat: LAT_CENTER,
+    lng: LNG_CENTER,
+  }, 13);
+
+  mainPinMarker.setLatLng({
+    lat: LAT_CENTER,
+    lng: LNG_CENTER,
+  });
+};
+
+export { roomAddress, resetMap };

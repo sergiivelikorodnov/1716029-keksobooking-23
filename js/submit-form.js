@@ -3,6 +3,7 @@ import {
   MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY,
   MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, LAT_CENTER, LNG_CENTER, PROPERTY_TYPE
 } from './constants.js';
+import { resetMap } from './map.js';
 
 const offerName = document.querySelector('#title');
 const priceRoom = document.querySelector('#price');
@@ -17,6 +18,7 @@ const adForm = document.querySelector('.ad-form');
 
 const defaultAddress = () => {
   roomAddress.setAttribute('value', `${LAT_CENTER}, ${LNG_CENTER}`);
+
 };
 
 defaultAddress();
@@ -124,6 +126,7 @@ timeOut.addEventListener('change', () => {
 
 resetFormButton.addEventListener('click', () => {
   defaultAddress();
+  resetMap();
 });
 
 const formSubmit = (event) => {
