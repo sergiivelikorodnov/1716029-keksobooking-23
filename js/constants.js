@@ -1,9 +1,24 @@
 const PROPERTY_TYPE = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalow: 'Бунгало',
-  hotel: 'Отель',
+  palace: {
+    name: 'palace',
+    price: 10000,
+  },
+  flat: {
+    name: 'flat',
+    price: 1000,
+  },
+  house: {
+    name: 'house',
+    price: 5000,
+  },
+  bungalow: {
+    name: 'bungalow',
+    price: 0,
+  },
+  hotel: {
+    name: 'hotel',
+    price: 3000,
+  },
 };
 
 const CHECKIN_TIME = [
@@ -46,14 +61,13 @@ const ALL_PROPERTIES_LENGTH = 10;
 const MIN_NAME_LENGTH = 30;
 const MAX_NAME_LENGTH = 100;
 const MAX_ROOM_PRICE = 1000000;
-const MIN_BUNGALOW_PRICE = 0;
-const MIN_FLAT_PRICE = 1000;
-const MIN_HOTEL_PRICE = 3000;
-const MIN_HOUSE_PRICE = 5000;
-const MIN_PALACE_PRICE = 10000;
+
 const DEFAULT_ROOM_NUMBER = 1;
 const DEFAULT_ROOM_CAPACITY = 3;
 const MAX_ROOM_NUMBER = 100;
+
+const MAP_FILTER_DISABLED = 'map__filters--disabled';
+const AD_FORM_DISABLED = 'ad-form--disabled';
 
 const ROOM_VAL_MESSAGE = [
   'Слишком много гостей. Выберите меньше значение',
@@ -64,6 +78,6 @@ const ROOM_VAL_MESSAGE = [
 
 export {
   PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX,
-  SHUFFLE_MIN, MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, MIN_BUNGALOW_PRICE, MIN_FLAT_PRICE, MIN_HOTEL_PRICE, MIN_HOUSE_PRICE,
-  MIN_PALACE_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, LAT_CENTER, LNG_CENTER
+  SHUFFLE_MIN, MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER,
+  ROOM_VAL_MESSAGE, LAT_CENTER, LNG_CENTER, MAP_FILTER_DISABLED, AD_FORM_DISABLED
 };

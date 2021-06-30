@@ -1,7 +1,7 @@
 
 import {
-  MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, MIN_BUNGALOW_PRICE, MIN_FLAT_PRICE, MIN_HOTEL_PRICE, MIN_HOUSE_PRICE,
-  MIN_PALACE_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, LAT_CENTER, LNG_CENTER
+  MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY,
+  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, LAT_CENTER, LNG_CENTER, PROPERTY_TYPE
 } from './constants.js';
 
 const offerName = document.querySelector('#title');
@@ -12,10 +12,16 @@ const roomCapacity = document.querySelector('#capacity');
 const roomAddress = document.querySelector('#address');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
+const resetFormButton = document.querySelector('.ad-form__reset');
+const adForm = document.querySelector('.ad-form');
 
-roomAddress.value = `${LAT_CENTER}, ${LNG_CENTER}`;
+const defaultAddress = () => {
+  roomAddress.setAttribute('value', `${LAT_CENTER}, ${LNG_CENTER}`);
+};
 
-let minPriceRoom = MIN_FLAT_PRICE;
+defaultAddress();
+
+let minPriceRoom = PROPERTY_TYPE.flat.price;
 let roomNumberValue = DEFAULT_ROOM_NUMBER;
 let roomCapacityValue = DEFAULT_ROOM_CAPACITY;
 
@@ -38,21 +44,21 @@ offerName.addEventListener('input', () => {
   offerName.reportValidity();
 });
 const checkMinPrice = () => {
-  if (typeRoom.value === 'bungalow') {
-    minPriceRoom = MIN_BUNGALOW_PRICE;
-    priceRoom.placeholder = MIN_BUNGALOW_PRICE;
-  } else if (typeRoom.value === 'flat') {
-    minPriceRoom = MIN_FLAT_PRICE;
-    priceRoom.placeholder = MIN_FLAT_PRICE;
-  } else if (typeRoom.value === 'palace') {
-    minPriceRoom = MIN_PALACE_PRICE;
-    priceRoom.placeholder = MIN_PALACE_PRICE;
-  } else if (typeRoom.value === 'house') {
-    minPriceRoom = MIN_HOUSE_PRICE;
-    priceRoom.placeholder = MIN_HOUSE_PRICE;
+  if (typeRoom.value === PROPERTY_TYPE.bungalow.name) {
+    minPriceRoom = PROPERTY_TYPE.bungalow.price;
+    priceRoom.placeholder = PROPERTY_TYPE.bungalow.price;
+  } else if (typeRoom.value === PROPERTY_TYPE.flat.name) {
+    minPriceRoom = PROPERTY_TYPE.flat.price;
+    priceRoom.placeholder = PROPERTY_TYPE.flat.price;
+  } else if (typeRoom.value === PROPERTY_TYPE.palace.name) {
+    minPriceRoom = PROPERTY_TYPE.palace.price;
+    priceRoom.placeholder = PROPERTY_TYPE.palace.price;
+  } else if (typeRoom.value === PROPERTY_TYPE.house.name) {
+    minPriceRoom = PROPERTY_TYPE.house.price;
+    priceRoom.placeholder = PROPERTY_TYPE.house.price;
   } else {
-    minPriceRoom = MIN_HOTEL_PRICE;
-    priceRoom.placeholder = MIN_HOTEL_PRICE;
+    minPriceRoom = PROPERTY_TYPE.hotel.price;
+    priceRoom.placeholder = PROPERTY_TYPE.hotel.price;
   }
 };
 
@@ -116,5 +122,14 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
+resetFormButton.addEventListener('click', () => {
+  defaultAddress();
+});
+
+const formSubmit = (event) => {
+  event.preventDefault();
+};
+
+adForm.addEventListener('submit', formSubmit);
 
 export { roomAddress };
