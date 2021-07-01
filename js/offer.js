@@ -1,15 +1,6 @@
-import { allProperties } from './property-data.js';
-import { getRandomValue } from './utils.js';
-
-const offerTemplate = document.querySelector('#card').content;
-const mapCanvas = document.querySelector('#map-canvas');
-
-const offerBox = document.createDocumentFragment();
-const randomOffer = getRandomValue(allProperties);
-
-const offerCards = (singleOffer) => {
+const createCustomOffer = (singleOffer) => {
   const { title, address, price, rooms, type, guests, checkout, checkin, features, description, photos } = singleOffer.offer;
-
+  const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
   const offerCard = offerTemplate.cloneNode(true);
   const roomsText = () => {
     if (singleOffer.offer.rooms === '1') {
@@ -25,7 +16,7 @@ const offerCards = (singleOffer) => {
   offerCard.querySelector('.popup__title').textContent = title;
   offerCard.querySelector('.popup__text--address').textContent = address;
   offerCard.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
-  offerCard.querySelector('.popup__type').textContent = type[1];
+  offerCard.querySelector('.popup__type').textContent = type[1].name;
   offerCard.querySelector('.popup__text--capacity').textContent = `${rooms} ${roomsText()} ${guests} ${guestsText}`;
   offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 
@@ -50,11 +41,8 @@ const offerCards = (singleOffer) => {
   });
   photoCard.remove();
   offerCard.querySelector('.popup__avatar').src = singleOffer.avatar;
-  offerBox.appendChild(offerCard);
+
+  return offerCard;
 };
 
-
-offerCards(randomOffer);
-
-
-mapCanvas.appendChild(offerBox);
+export { createCustomOffer };
