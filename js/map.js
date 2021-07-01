@@ -1,9 +1,10 @@
 import { roomAddress } from './submit-form.js';
 import { allProperties } from './property-data.js';
-import { LAT_CENTER, LNG_CENTER } from './constants.js';
+import { CENTER_MAP_POSITION, MAIN_PIN_ICON_URL, OFFER_PIN_ICON_URL } from './constants.js';
 import { createCustomOffer } from './offer.js';
 import { deactivateForm, activateForm } from './activate-form.js';
 
+const { lat, lng } = CENTER_MAP_POSITION;
 deactivateForm();
 
 const map = L.map('map-canvas')
@@ -11,21 +12,18 @@ const map = L.map('map-canvas')
     activateForm();
   })
   .setView({
-    lat: LAT_CENTER,
-    lng: LNG_CENTER,
+    lat,
+    lng,
   }, 13);
+const createCustomPin = (imageUrl) => {
+  const customPin = L.icon({
+    iconUrl: imageUrl,
+    iconSize: [52, 52],
+    iconAnchor: [26, 52],
+  });
 
-const mainPinIcon = L.icon({
-  iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-const offerPinIcon = L.icon({
-  iconUrl: 'img/pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
+  return customPin;
+};
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -36,23 +34,22 @@ L.tileLayer(
 
 const mainPinMarker = L.marker(
   {
-    lat: LAT_CENTER,
-    lng: LNG_CENTER,
+    lat,
+    lng,
   },
   {
     draggable: true,
-    icon: mainPinIcon,
+    icon: createCustomPin(MAIN_PIN_ICON_URL),
   },
 );
 
 allProperties.forEach((singleOffer) => {
-  const { lat, lng } = singleOffer.location;
   const marker = L.marker({
-    lat,
-    lng,
+    lat: singleOffer.location.lat,
+    lng: singleOffer.location.lng,
   }, {
     draggable: false,
-    icon: offerPinIcon,
+    icon: createCustomPin(OFFER_PIN_ICON_URL),
   },
   );
   marker
@@ -69,13 +66,13 @@ mainPinMarker.on('moveend', (evt) => {
 
 const resetMap = () => {
   map.setView({
-    lat: LAT_CENTER,
-    lng: LNG_CENTER,
+    lat,
+    lng,
   }, 13);
 
   mainPinMarker.setLatLng({
-    lat: LAT_CENTER,
-    lng: LNG_CENTER,
+    lat,
+    lng,
   });
 };
 

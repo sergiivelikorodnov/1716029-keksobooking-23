@@ -1,7 +1,7 @@
 
 import {
   MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY,
-  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, LAT_CENTER, LNG_CENTER, PROPERTY_TYPE
+  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, CENTER_MAP_POSITION, PROPERTY_TYPE
 } from './constants.js';
 import { resetMap } from './map.js';
 
@@ -15,9 +15,9 @@ const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const resetFormButton = document.querySelector('.ad-form__reset');
 const adForm = document.querySelector('.ad-form');
-
+const { lat, lng } = CENTER_MAP_POSITION;
 const defaultAddress = () => {
-  roomAddress.setAttribute('value', `${LAT_CENTER}, ${LNG_CENTER}`);
+  roomAddress.setAttribute('value', `${lat}, ${lng}`);
 
 };
 
@@ -46,22 +46,9 @@ offerName.addEventListener('input', () => {
   offerName.reportValidity();
 });
 const checkMinPrice = () => {
-  if (typeRoom.value === PROPERTY_TYPE.bungalow.name) {
-    minPriceRoom = PROPERTY_TYPE.bungalow.price;
-    priceRoom.placeholder = PROPERTY_TYPE.bungalow.price;
-  } else if (typeRoom.value === PROPERTY_TYPE.flat.name) {
-    minPriceRoom = PROPERTY_TYPE.flat.price;
-    priceRoom.placeholder = PROPERTY_TYPE.flat.price;
-  } else if (typeRoom.value === PROPERTY_TYPE.palace.name) {
-    minPriceRoom = PROPERTY_TYPE.palace.price;
-    priceRoom.placeholder = PROPERTY_TYPE.palace.price;
-  } else if (typeRoom.value === PROPERTY_TYPE.house.name) {
-    minPriceRoom = PROPERTY_TYPE.house.price;
-    priceRoom.placeholder = PROPERTY_TYPE.house.price;
-  } else {
-    minPriceRoom = PROPERTY_TYPE.hotel.price;
-    priceRoom.placeholder = PROPERTY_TYPE.hotel.price;
-  }
+  const { value } = typeRoom;
+  minPriceRoom = PROPERTY_TYPE[value].price;
+  priceRoom.placeholder = PROPERTY_TYPE[value].price;
 };
 
 checkMinPrice();

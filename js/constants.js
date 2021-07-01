@@ -1,22 +1,22 @@
 const PROPERTY_TYPE = {
   palace: {
-    name: 'palace',
+    name: 'Дворец',
     price: 10000,
   },
   flat: {
-    name: 'flat',
+    name: 'Квартира',
     price: 1000,
   },
   house: {
-    name: 'house',
+    name: 'Дом',
     price: 5000,
   },
   bungalow: {
-    name: 'bungalow',
+    name: 'Бунгало',
     price: 0,
   },
   hotel: {
-    name: 'hotel',
+    name: 'Отель',
     price: 3000,
   },
 };
@@ -52,9 +52,15 @@ const LAT_MIN = 35.65000;
 const LAT_MAX = 35.70000;
 const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
-const LAT_CENTER = 35.68156;
-const LNG_CENTER = 139.75433;
 const SHUFFLE_MIN = 0.5;
+
+const CENTER_MAP_POSITION = {
+  lat: 35.68156,
+  lng: 139.75433,
+};
+
+const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
+const OFFER_PIN_ICON_URL = 'img/pin.svg';
 
 const ALL_PROPERTIES_LENGTH = 10;
 
@@ -79,5 +85,5 @@ const ROOM_VAL_MESSAGE = [
 export {
   PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX,
   SHUFFLE_MIN, MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER,
-  ROOM_VAL_MESSAGE, LAT_CENTER, LNG_CENTER, MAP_FILTER_DISABLED, AD_FORM_DISABLED
+  ROOM_VAL_MESSAGE, MAP_FILTER_DISABLED, AD_FORM_DISABLED, CENTER_MAP_POSITION, MAIN_PIN_ICON_URL, OFFER_PIN_ICON_URL
 };

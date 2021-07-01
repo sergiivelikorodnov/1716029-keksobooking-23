@@ -16,7 +16,7 @@ const createCustomOffer = (singleOffer) => {
   offerCard.querySelector('.popup__title').textContent = title;
   offerCard.querySelector('.popup__text--address').textContent = address;
   offerCard.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
-  offerCard.querySelector('.popup__type').textContent = type[1];
+  offerCard.querySelector('.popup__type').textContent = type[1].name;
   offerCard.querySelector('.popup__text--capacity').textContent = `${rooms} ${roomsText()} ${guests} ${guestsText}`;
   offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 
