@@ -52,13 +52,12 @@ const LAT_MIN = 35.65000;
 const LAT_MAX = 35.70000;
 const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
+const SHUFFLE_MIN = 0.5;
 
 const CENTER_MAP_POSITION = {
   lat: 35.68156,
   lng: 139.75433,
 };
-
-const SHUFFLE_MIN = 0.5;
 
 const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
 const OFFER_PIN_ICON_URL = 'img/pin.svg';
