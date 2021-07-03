@@ -23,22 +23,26 @@ const createCustomOffer = (singleOffer) => {
   /**
    * Features List
    */
-  const offerFeaturesList = offerTemplate.querySelector('.popup__features');
-  const modifiers = features.map((feature) => `popup__feature--${feature}`);
-  offerFeaturesList.querySelectorAll('.popup__feature')
-    .forEach((item) => {
-      const modifier = item.classList[1];
-      if (!modifiers.includes(modifier)) {
-        item.remove();
-      }
-    });
+  if (features !== undefined) {
+    const offerFeaturesList = offerTemplate.querySelector('.popup__features');
+    const modifiers = features.map((feature) => `popup__feature--${feature}`);
+    offerFeaturesList.querySelectorAll('.popup__feature')
+      .forEach((item) => {
+        const modifier = item.classList[1];
+        if (!modifiers.includes(modifier)) {
+          item.remove();
+        }
+      });
+  }
 
-  offerCard.querySelector('.popup__description').textContent = description;
-  photos.forEach((photo) => {
-    const photoNode = photoCard.cloneNode(true);
-    photoNode.src = photo;
-    offerCard.querySelector('.popup__photos').appendChild(photoNode);
-  });
+  if (photos !== undefined) {
+    offerCard.querySelector('.popup__description').textContent = description;
+    photos.forEach((photo) => {
+      const photoNode = photoCard.cloneNode(true);
+      photoNode.src = photo;
+      offerCard.querySelector('.popup__photos').appendChild(photoNode);
+    });
+  }
   photoCard.remove();
   offerCard.querySelector('.popup__avatar').src = singleOffer.avatar;
 

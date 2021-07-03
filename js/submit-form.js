@@ -1,9 +1,10 @@
 
 import {
   MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY,
-  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, CENTER_MAP_POSITION, PROPERTY_TYPE
+  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, CENTER_MAP_POSITION, PROPERTY_TYPE, SEND_DATA_URL
 } from './constants.js';
 import { resetMap } from './map.js';
+import { showAlert } from './utils.js';
 
 const offerName = document.querySelector('#title');
 const priceRoom = document.querySelector('#price');
@@ -15,6 +16,10 @@ const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const resetFormButton = document.querySelector('.ad-form__reset');
 const adForm = document.querySelector('.ad-form');
+const successMessage = document.querySelector('#success ').content;
+const successMessageClone = successMessage.cloneNode(true);
+const body = document.querySelector('body');
+
 const { lat, lng } = CENTER_MAP_POSITION;
 const defaultAddress = () => {
   roomAddress.setAttribute('value', `${lat}, ${lng}`);
@@ -116,10 +121,46 @@ resetFormButton.addEventListener('click', () => {
   resetMap();
 });
 
-const formSubmit = (event) => {
-  event.preventDefault();
+const successMessageHandler = () => {
+  successMessageClone.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      console.log('click');
+      //evt.target.remove();
+      //body.removeChild(successMessageClone);
+    }
+  });
+  console.log(successMessage);
 };
 
-adForm.addEventListener('submit', formSubmit);
+const resetForm = () => {
+  body.appendChild(successMessageClone);
+  successMessageHandler();
+  adForm.reset();
+  resetMap();
+};
 
-export { roomAddress };
+const offerFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    fetch(
+      SEND_DATA_URL,
+      {
+        method: 'POST',
+        body: formData,
+      },
+    )
+      .then((response) => {
+        if (response.ok) {
+          onSuccess();
+        } else {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+        }
+      })
+      .catch(() => {
+        showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+      });
+  });
+};
+
+export { roomAddress, offerFormSubmit, resetForm };

@@ -1,6 +1,5 @@
 import { roomAddress } from './submit-form.js';
-import { allProperties } from './property-data.js';
-import { CENTER_MAP_POSITION, MAIN_PIN_ICON_URL, OFFER_PIN_ICON_URL } from './constants.js';
+import { CENTER_MAP_POSITION, MAIN_PIN_ICON_HEIGTH, MAIN_PIN_ICON_URL, MAIN_PIN_ICON_WIDTH, OFFER_PIN_ICON_HEIGTH, OFFER_PIN_ICON_URL, OFFER_PIN_ICON_WIDTH } from './constants.js';
 import { createCustomOffer } from './offer.js';
 import { deactivateForm, activateForm } from './activate-form.js';
 
@@ -15,11 +14,11 @@ const map = L.map('map-canvas')
     lat,
     lng,
   }, 13);
-const createCustomPin = (imageUrl) => {
+const createCustomPin = (imageUrl, width, heigth) => {
   const customPin = L.icon({
     iconUrl: imageUrl,
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconSize: [width, heigth],
+    iconAnchor: [width / 2, heigth],
   });
 
   return customPin;
@@ -39,23 +38,25 @@ const mainPinMarker = L.marker(
   },
   {
     draggable: true,
-    icon: createCustomPin(MAIN_PIN_ICON_URL),
+    icon: createCustomPin(MAIN_PIN_ICON_URL, MAIN_PIN_ICON_WIDTH, MAIN_PIN_ICON_HEIGTH),
   },
 );
 
-allProperties.forEach((singleOffer) => {
-  const marker = L.marker({
-    lat: singleOffer.location.lat,
-    lng: singleOffer.location.lng,
-  }, {
-    draggable: false,
-    icon: createCustomPin(OFFER_PIN_ICON_URL),
-  },
-  );
-  marker
-    .addTo(map)
-    .bindPopup(createCustomOffer(singleOffer));
-});
+const drawProperties = (allProperties) => {
+  allProperties.forEach((singleOffer) => {
+    const marker = L.marker({
+      lat: singleOffer.location.lat,
+      lng: singleOffer.location.lng,
+    }, {
+      draggable: false,
+      icon: createCustomPin(OFFER_PIN_ICON_URL, OFFER_PIN_ICON_WIDTH, OFFER_PIN_ICON_HEIGTH),
+    },
+    );
+    marker
+      .addTo(map)
+      .bindPopup(createCustomOffer(singleOffer));
+  });
+};
 
 mainPinMarker.addTo(map);
 
@@ -76,4 +77,4 @@ const resetMap = () => {
   });
 };
 
-export { roomAddress, resetMap };
+export { roomAddress, resetMap, drawProperties };
