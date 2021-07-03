@@ -3,8 +3,23 @@ import { CENTER_MAP_POSITION, MAIN_PIN_ICON_HEIGTH, MAIN_PIN_ICON_URL, MAIN_PIN_
 import { createCustomOffer } from './offer.js';
 import { deactivateForm, activateForm } from './activate-form.js';
 
+/**
+ * Центра карты
+ */
+
 const { lat, lng } = CENTER_MAP_POSITION;
+
+/**
+ * Деактивируем формы
+ */
+
 deactivateForm();
+
+/**
+ * Грузим контейнер с картой
+ * задаем центр
+ * и создаем универсальную функцию для разных маркеров
+ */
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -24,12 +39,20 @@ const createCustomPin = (imageUrl, width, heigth) => {
   return customPin;
 };
 
+/**
+ * Добавляем опенстрит карты со слоями
+ */
+
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
+/**
+ * Добавляем красынй маркер, который можно таскать
+ */
 
 const mainPinMarker = L.marker(
   {
@@ -41,6 +64,11 @@ const mainPinMarker = L.marker(
     icon: createCustomPin(MAIN_PIN_ICON_URL, MAIN_PIN_ICON_WIDTH, MAIN_PIN_ICON_HEIGTH),
   },
 );
+
+/**
+ * Перебор всех объявлений и вывод на страницу
+ * добавляем маркеры синего цвета
+ */
 
 const drawProperties = (allProperties) => {
   allProperties.forEach((singleOffer) => {
@@ -58,12 +86,25 @@ const drawProperties = (allProperties) => {
   });
 };
 
+/**
+ * Вывод красного маркера на карту, который таскаем
+ */
 mainPinMarker.addTo(map);
+
+/**
+ * Берем координаты маркера и подставляем в форму, обрезаем и оставляем последние
+ * 5 значений после запятой
+ */
 
 mainPinMarker.on('moveend', (evt) => {
   const address = evt.target.getLatLng();
   roomAddress.value = `${address.lat.toFixed(5)}, ${address.lng.toFixed(5)}`;
 });
+
+/**
+ * Сброс карты для очистки формы
+ * Маркер ставим на дефолтное зачение
+ */
 
 const resetMap = () => {
   map.setView({

@@ -5,6 +5,8 @@ import {
 } from './constants.js';
 import { resetMap } from './map.js';
 import { showAlert } from './utils.js';
+import './avatar.js';
+import { resetPhoto } from './avatar.js';
 
 const offerName = document.querySelector('#title');
 const priceRoom = document.querySelector('#price');
@@ -20,6 +22,10 @@ const successMessage = document.querySelector('#success ').content;
 const successMessageClone = successMessage.cloneNode(true);
 const body = document.querySelector('body');
 
+/**
+ * Дефолтное значение карты и адрес
+ */
+
 const { lat, lng } = CENTER_MAP_POSITION;
 const defaultAddress = () => {
   roomAddress.setAttribute('value', `${lat}, ${lng}`);
@@ -27,6 +33,10 @@ const defaultAddress = () => {
 };
 
 defaultAddress();
+
+/**
+ * Дефолтные значени минимальной цены, кол-ва комнат и людей
+ */
 
 let minPriceRoom = PROPERTY_TYPE.flat.price;
 let roomNumberValue = DEFAULT_ROOM_NUMBER;
@@ -36,6 +46,10 @@ if (roomNumberValue < roomCapacityValue) {
   roomCapacity.setCustomValidity(ROOM_VAL_MESSAGE[0]);
   roomCapacity.reportValidity();
 }
+
+/**
+ * Валидация длины Тайтла
+ */
 
 offerName.addEventListener('input', () => {
   const valueLength = offerName.value.length;
@@ -50,6 +64,11 @@ offerName.addEventListener('input', () => {
 
   offerName.reportValidity();
 });
+
+/**
+ * Валидация минимальной цены и изменение в плейсхолдере
+ */
+
 const checkMinPrice = () => {
   const { value } = typeRoom;
   minPriceRoom = PROPERTY_TYPE[value].price;
@@ -58,9 +77,17 @@ const checkMinPrice = () => {
 
 checkMinPrice();
 
+/**
+ * Зависимость типа комнаты от цены
+ */
+
 typeRoom.addEventListener('change', () => {
   checkMinPrice();
 });
+
+/**
+ * Валидация на минимальную и максимальную стоимость комнаты
+ */
 
 priceRoom.addEventListener('input', () => {
   const valuePrice = priceRoom.value;
@@ -76,6 +103,11 @@ priceRoom.addEventListener('input', () => {
   priceRoom.setCustomValidity(message);
   priceRoom.reportValidity();
 });
+
+/**
+ * Валидация количество комнат с количеством людей в комнате
+ * Вывод сообщений
+ */
 
 roomNumber.addEventListener('change', () => {
   roomNumberValue = Number(roomNumber.value);
@@ -94,6 +126,11 @@ roomNumber.addEventListener('change', () => {
   roomCapacity.reportValidity();
 });
 
+/**
+ * Валидация количества людей с количеством комнат
+ * Вывод сообщений
+ */
+
 roomCapacity.addEventListener('change', () => {
   roomCapacityValue = Number(roomCapacity.value);
   let message;
@@ -108,6 +145,10 @@ roomCapacity.addEventListener('change', () => {
   roomCapacity.reportValidity();
 });
 
+/**
+ * Зависимость время чек-ин и чек-аута
+ */
+
 timeIn.addEventListener('change', () => {
   timeOut.value = timeIn.value;
 });
@@ -116,28 +157,45 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
+/**
+ * Очистка формы при нажатии на кнопку Очистить форму
+ */
+
 resetFormButton.addEventListener('click', () => {
   defaultAddress();
   resetMap();
+  resetPhoto();
 });
+
+/**
+ * Скрытие сообщения об удачной отправке
+ */
 
 const successMessageHandler = () => {
   successMessageClone.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
-      console.log('click');
+      //console.log('click');
       //evt.target.remove();
       //body.removeChild(successMessageClone);
     }
   });
-  console.log(successMessage);
 };
+
+/**
+ * Очистка формы при удачной отправке формы
+ */
 
 const resetForm = () => {
   body.appendChild(successMessageClone);
   successMessageHandler();
   adForm.reset();
   resetMap();
+  resetPhoto();
 };
+
+/**
+ * Кнопка сабмита формы
+ */
 
 const offerFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {

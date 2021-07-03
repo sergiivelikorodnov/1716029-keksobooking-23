@@ -59,6 +59,10 @@ const showAlert = (message) => {
   alertContainer.textContent = message;
 
   document.body.append(alertContainer);
+  scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
 
   setTimeout(() => {
     alertContainer.remove();
