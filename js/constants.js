@@ -154,17 +154,23 @@ const DEFAULT_IMAGE_PLACEHOLDER = 'img/muffin-grey.svg';
  */
 
 const REQUEST_URL = 'https://23.javascript.pages.academy/keksobooking/data';
-const SEND_DATA_URL = 'https://23.javascript.pages.academy/keksobooking/1';
+const SEND_DATA_URL = 'https://23.javascript.pages.academy/keksobooking/';
 
 /**
  * Время сколько будет показываться сообщение
  */
 const ALERT_SHOW_TIME = 5000;
 
+/**
+ * Сообшение об ошибке
+ */
+const MESSAGE_SEND_ERROR = 'Не удалось отправить форму. Попробуйте ещё раз';
+const MESSAGE_GET_ERROR = 'Не удалось получить данные';
+
 export {
   PROPERTY_TYPE, CHECKIN_TIME, CHECKOUT_TIME, ROOM_FEATURES, ROOM_PHOTOS, ALL_PROPERTIES_LENGTH, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX,
   SHUFFLE_MIN, MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY, MAX_ROOM_NUMBER,
   ROOM_VAL_MESSAGE, MAP_FILTER_DISABLED, AD_FORM_DISABLED, CENTER_MAP_POSITION, MAIN_PIN_ICON_URL, OFFER_PIN_ICON_URL, REQUEST_URL,
   ALERT_SHOW_TIME, OFFER_PIN_ICON_HEIGTH, OFFER_PIN_ICON_WIDTH, MAIN_PIN_ICON_HEIGTH, MAIN_PIN_ICON_WIDTH, SEND_DATA_URL, FILE_TYPES,
-  DEFAULT_IMAGE_PLACEHOLDER
+  DEFAULT_IMAGE_PLACEHOLDER, MESSAGE_SEND_ERROR, MESSAGE_GET_ERROR
 };

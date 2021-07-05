@@ -1,11 +1,11 @@
 
 import {
   MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY,
-  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, CENTER_MAP_POSITION, PROPERTY_TYPE, SEND_DATA_URL
+  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, CENTER_MAP_POSITION, PROPERTY_TYPE, SEND_DATA_URL, MESSAGE_SEND_ERROR
 } from './constants.js';
 import { resetMap } from './map.js';
 import { showAlert } from './utils.js';
-import { getData } from './fetch.js';
+import { sendData } from './fetch.js';
 import './avatar.js';
 import { resetPhoto } from './avatar.js';
 
@@ -201,13 +201,14 @@ const resetForm = () => {
 const offerFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-
-    getData('POST', SEND_DATA_URL, formData)
-      .then(onSuccess())
-      .catch((err) => showAlert(err));
-
+    sendData(
+      () => onSuccess(),
+      () => showAlert(MESSAGE_SEND_ERROR),
+      'POST',
+      SEND_DATA_URL,
+      new FormData(evt.target),
+    );
   });
 };
 
-export { roomAddress, offerFormSubmit, resetForm };
+export { roomAddress, resetForm, offerFormSubmit };

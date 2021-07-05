@@ -1,33 +1,71 @@
-import { REQUEST_URL } from './constants.js';
+import { MESSAGE_GET_ERROR, REQUEST_URL } from './constants.js';
 import { drawProperties } from './map.js';
 import { showAlert } from './utils.js';
 
-function getData(method, url, body = null) {
+
+/**
+ * Get fetch
+*/
+
+function getData(method, url, body) {
   return fetch(url, {
     method: method,
     body: body,
-  }).then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    return response.json().then((error) => {
-      const e = new Error(`${response.status} ${response.statusText}`);
-      e.data = error;
-      throw e;
-    });
-  })
-    .catch((err) => {
-      const e = new Error(`${response.status} ${response.statusText}`);
-      e.data = err;
-      throw e;
-    });
+  });
 }
 
-const getOffers = () => {
-  getData('GET', REQUEST_URL)
-    .then((data) => drawProperties(data))
-    .catch((err) => showAlert(err));
+
+/**
+ * Get data
+*/
+
+const createFetch = (onSuccess, onError, method, url, body = null) => () => {
+  getData(method, url, body)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
+    .then((json) => {
+      onSuccess(json);
+    })
+    .catch((err) => {
+      onError(err);
+    });
 };
 
-export { getOffers, getData };
+/**
+ * Output data from Fetch
+*/
+
+const outputProperties = createFetch(
+  (data) => {
+    drawProperties(data);
+  },
+  (err) => {
+    showAlert(err);
+  },
+  'GET', REQUEST_URL);
+
+/**
+ * Send data fetch
+*/
+
+const sendData = (onSuccess, onFail, method, url, body) => {
+  getData(method, url, body)
+
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail(MESSAGE_GET_ERROR);
+      }
+    })
+    .catch(() => {
+      onFail(MESSAGE_GET_ERROR);
+    });
+};
+
+export { getData, outputProperties, sendData };
