@@ -4,7 +4,7 @@ import { createCustomOffer } from './offer.js';
 import { deactivateForm, activateForm } from './activate-form.js';
 
 /**
- * Центра карты
+ * Центр карты
  */
 
 const { lat, lng } = CENTER_MAP_POSITION;

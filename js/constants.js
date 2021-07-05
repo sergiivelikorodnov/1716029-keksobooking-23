@@ -154,7 +154,7 @@ const DEFAULT_IMAGE_PLACEHOLDER = 'img/muffin-grey.svg';
  */
 
 const REQUEST_URL = 'https://23.javascript.pages.academy/keksobooking/data';
-const SEND_DATA_URL = 'https://23.javascript.pages.academy/keksobooking/';
+const SEND_DATA_URL = 'https://23.javascript.pages.academy/keksobooking/1';
 
 /**
  * Время сколько будет показываться сообщение

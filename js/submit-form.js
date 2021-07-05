@@ -5,6 +5,7 @@ import {
 } from './constants.js';
 import { resetMap } from './map.js';
 import { showAlert } from './utils.js';
+import { getData } from './fetch.js';
 import './avatar.js';
 import { resetPhoto } from './avatar.js';
 
@@ -18,9 +19,8 @@ const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const resetFormButton = document.querySelector('.ad-form__reset');
 const adForm = document.querySelector('.ad-form');
-const successMessage = document.querySelector('#success ').content;
-const successMessageClone = successMessage.cloneNode(true);
-const body = document.querySelector('body');
+const successMessage = document.querySelector('#success ').content.querySelector('.success');
+const { body } = document;
 
 /**
  * Дефолтное значение карты и адрес
@@ -172,13 +172,9 @@ resetFormButton.addEventListener('click', () => {
  */
 
 const successMessageHandler = () => {
-  successMessageClone.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      //console.log('click');
-      //evt.target.remove();
-      //body.removeChild(successMessageClone);
-    }
-  });
+  successMessage.remove();
+  body.removeEventListener('keydown', successMessageHandler);
+  body.removeEventListener('click', successMessageHandler);
 };
 
 /**
@@ -186,8 +182,13 @@ const successMessageHandler = () => {
  */
 
 const resetForm = () => {
-  body.appendChild(successMessageClone);
-  successMessageHandler();
+  body.appendChild(successMessage);
+  body.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      successMessageHandler();
+    }
+  });
+  body.addEventListener('click', successMessageHandler);
   adForm.reset();
   resetMap();
   resetPhoto();
@@ -201,23 +202,11 @@ const offerFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
-    fetch(
-      SEND_DATA_URL,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then((response) => {
-        if (response.ok) {
-          onSuccess();
-        } else {
-          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
-        }
-      })
-      .catch(() => {
-        showAlert('Не удалось отправить форму. Попробуйте ещё раз');
-      });
+
+    getData('POST', SEND_DATA_URL, formData)
+      .then(onSuccess())
+      .catch((err) => showAlert(err));
+
   });
 };
 

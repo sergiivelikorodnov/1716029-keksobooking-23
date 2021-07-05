@@ -2,6 +2,10 @@ const createCustomOffer = (singleOffer) => {
   const { title, address, price, rooms, type, guests, checkout, checkin, features, description, photos } = singleOffer.offer;
   const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
   const offerCard = offerTemplate.cloneNode(true);
+
+  /**
+  * Условия для склонения слов
+  */
   const roomsText = () => {
     if (singleOffer.offer.rooms === '1') {
       return 'комната для ';
@@ -12,6 +16,9 @@ const createCustomOffer = (singleOffer) => {
 
   const guestsText = (guests === '1') ? 'гостя' : 'гостей';
 
+  /**
+   * Поля карточки объявления
+   */
   const photoCard = offerCard.querySelector('.popup__photo');
   offerCard.querySelector('.popup__title').textContent = title;
   offerCard.querySelector('.popup__text--address').textContent = address;
@@ -23,7 +30,7 @@ const createCustomOffer = (singleOffer) => {
   /**
    * Features List
    */
-  if (features !== undefined) {
+  if (features) {
     const offerFeaturesList = offerTemplate.querySelector('.popup__features');
     const modifiers = features.map((feature) => `popup__feature--${feature}`);
     offerFeaturesList.querySelectorAll('.popup__feature')
@@ -35,7 +42,11 @@ const createCustomOffer = (singleOffer) => {
       });
   }
 
-  if (photos !== undefined) {
+  /**
+ * Offer Photos
+ */
+
+  if (photos) {
     offerCard.querySelector('.popup__description').textContent = description;
     photos.forEach((photo) => {
       const photoNode = photoCard.cloneNode(true);
@@ -44,6 +55,11 @@ const createCustomOffer = (singleOffer) => {
     });
   }
   photoCard.remove();
+
+  /**
+ * Avatar image
+ */
+
   offerCard.querySelector('.popup__avatar').src = singleOffer.avatar;
 
   return offerCard;

@@ -45,20 +45,10 @@ const getRandomValue = function (elements) {
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '24px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.color = 'white';
-  alertContainer.style.backgroundColor = 'red';
-
   alertContainer.textContent = message;
 
   document.body.append(alertContainer);
+  alertContainer.classList.add('alert-message');
   scrollTo({
     top: 0,
     behavior: 'smooth',
