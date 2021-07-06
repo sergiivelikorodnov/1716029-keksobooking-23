@@ -1,3 +1,4 @@
+import { activateFilter } from './activate-form.js';
 import { MESSAGE_GET_ERROR, REQUEST_URL } from './constants.js';
 import { drawProperties } from './map.js';
 import { showAlert } from './utils.js';
@@ -43,6 +44,7 @@ const createFetch = (onSuccess, onError, method, url, body = null) => () => {
 const outputProperties = createFetch(
   (data) => {
     drawProperties(data);
+    activateFilter();
   },
   (err) => {
     showAlert(err);

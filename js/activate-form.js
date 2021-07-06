@@ -43,8 +43,11 @@ const deactivateForm = () => {
    */
 const activateForm = () => {
   enableForm(adForm, AD_FORM_DISABLED, fieldsets);
+  // enableForm(mapFilters, MAP_FILTER_DISABLED, selectors);
+};
+
+const activateFilter = () => {
   enableForm(mapFilters, MAP_FILTER_DISABLED, selectors);
 };
-/** */
 
-export { deactivateForm, activateForm };
+export { deactivateForm, activateForm, activateFilter };
