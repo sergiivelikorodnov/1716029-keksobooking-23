@@ -202,7 +202,7 @@ const offerFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(
-      () => onSuccess(),
+      onSuccess,
       () => showAlert(MESSAGE_SEND_ERROR),
       'POST',
       SEND_DATA_URL,
