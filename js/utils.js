@@ -1,4 +1,4 @@
-import { LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, SHUFFLE_MIN } from './constants.js';
+import { LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, SHUFFLE_MIN, ALERT_SHOW_TIME } from './constants.js';
 
 /**
  * Random Float and Intenger function
@@ -39,4 +39,24 @@ const getRandomValue = function (elements) {
   return elements[getRandomInt(0, elements.length - 1)];
 };
 
-export { getRandomInt, getLocation, shuffle, getRandomValue };
+/**
+ * Show Alert Message
+ */
+
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+  alertContainer.classList.add('alert-message');
+  scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+export { getRandomInt, getLocation, shuffle, getRandomValue, showAlert };

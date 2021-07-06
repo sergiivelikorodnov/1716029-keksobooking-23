@@ -581,6 +581,11 @@ fieldset {
 
   background-color: #e4e4de;
   border-radius: 5px;
+
+  justify-content: center;
+  display:flex;
+  align-items: center;
+
 }
 
 .ad-form__element--submit {
@@ -1027,4 +1032,17 @@ fieldset {
 
 .hidden {
   display: none;
+}
+
+.alert-message{
+  z-index: 100;
+  position:absolute;
+  left: 0;
+  top : 0;
+  right : 0;
+  padding : 10px 3px;
+  font-size: 24px;
+  text-align: center;
+  color : white;
+  background-color: red;
 }

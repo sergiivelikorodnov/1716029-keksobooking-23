@@ -2,6 +2,10 @@ const createCustomOffer = (singleOffer) => {
   const { title, address, price, rooms, type, guests, checkout, checkin, features, description, photos } = singleOffer.offer;
   const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
   const offerCard = offerTemplate.cloneNode(true);
+
+  /**
+  * Условия для склонения слов
+  */
   const roomsText = () => {
     if (singleOffer.offer.rooms === '1') {
       return 'комната для ';
@@ -12,6 +16,9 @@ const createCustomOffer = (singleOffer) => {
 
   const guestsText = (guests === '1') ? 'гостя' : 'гостей';
 
+  /**
+   * Поля карточки объявления
+   */
   const photoCard = offerCard.querySelector('.popup__photo');
   offerCard.querySelector('.popup__title').textContent = title;
   offerCard.querySelector('.popup__text--address').textContent = address;
@@ -23,23 +30,36 @@ const createCustomOffer = (singleOffer) => {
   /**
    * Features List
    */
-  const offerFeaturesList = offerTemplate.querySelector('.popup__features');
-  const modifiers = features.map((feature) => `popup__feature--${feature}`);
-  offerFeaturesList.querySelectorAll('.popup__feature')
-    .forEach((item) => {
-      const modifier = item.classList[1];
-      if (!modifiers.includes(modifier)) {
-        item.remove();
-      }
-    });
+  if (features) {
+    const offerFeaturesList = offerTemplate.querySelector('.popup__features');
+    const modifiers = features.map((feature) => `popup__feature--${feature}`);
+    offerFeaturesList.querySelectorAll('.popup__feature')
+      .forEach((item) => {
+        const modifier = item.classList[1];
+        if (!modifiers.includes(modifier)) {
+          item.remove();
+        }
+      });
+  }
 
-  offerCard.querySelector('.popup__description').textContent = description;
-  photos.forEach((photo) => {
-    const photoNode = photoCard.cloneNode(true);
-    photoNode.src = photo;
-    offerCard.querySelector('.popup__photos').appendChild(photoNode);
-  });
+  /**
+ * Offer Photos
+ */
+
+  if (photos) {
+    offerCard.querySelector('.popup__description').textContent = description;
+    photos.forEach((photo) => {
+      const photoNode = photoCard.cloneNode(true);
+      photoNode.src = photo;
+      offerCard.querySelector('.popup__photos').appendChild(photoNode);
+    });
+  }
   photoCard.remove();
+
+  /**
+ * Avatar image
+ */
+
   offerCard.querySelector('.popup__avatar').src = singleOffer.avatar;
 
   return offerCard;
