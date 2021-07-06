@@ -29,12 +29,8 @@ const createFetch = (onSuccess, onError, method, url, body = null) => () => {
 
       throw new Error(`${response.status} ${response.statusText}`);
     })
-    .then((json) => {
-      onSuccess(json);
-    })
-    .catch((err) => {
-      onError(err);
-    });
+    .then(onSuccess)
+    .catch(onError);
 };
 
 /**
@@ -46,9 +42,7 @@ const outputProperties = createFetch(
     drawProperties(data);
     activateFilter();
   },
-  (err) => {
-    showAlert(err);
-  },
+  showAlert,
   'GET', REQUEST_URL);
 
 /**

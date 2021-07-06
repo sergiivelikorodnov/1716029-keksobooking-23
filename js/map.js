@@ -71,7 +71,7 @@ const mainPinMarker = L.marker(
  */
 
 const drawProperties = (allProperties) => {
-  allProperties.forEach((singleOffer) => {
+  allProperties.slice(9).forEach((singleOffer) => {
     const marker = L.marker({
       lat: singleOffer.location.lat,
       lng: singleOffer.location.lng,

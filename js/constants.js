@@ -153,7 +153,7 @@ const DEFAULT_IMAGE_PLACEHOLDER = 'img/muffin-grey.svg';
  * Ссылки для загрузки и выгрузки данных
  */
 
-const REQUEST_URL = 'https://23.javascript.pages.academy/keksobooking/data';
+const REQUEST_URL = 'https://23.javascript.pages.academy/keksobooking/data1';
 const SEND_DATA_URL = 'https://23.javascript.pages.academy/keksobooking/';
 
 /**
