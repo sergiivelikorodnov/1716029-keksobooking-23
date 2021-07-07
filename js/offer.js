@@ -1,5 +1,8 @@
+import { PROPERTY_TYPE } from './constants.js';
+
 const createCustomOffer = (singleOffer) => {
   const { title, address, price, rooms, type, guests, checkout, checkin, features, description, photos } = singleOffer.offer;
+  const { avatar } = singleOffer.author;
   const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
   const offerCard = offerTemplate.cloneNode(true);
 
@@ -23,31 +26,56 @@ const createCustomOffer = (singleOffer) => {
   offerCard.querySelector('.popup__title').textContent = title;
   offerCard.querySelector('.popup__text--address').textContent = address;
   offerCard.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
-  offerCard.querySelector('.popup__type').textContent = type[1].name;
+  if (type) {
+    offerCard.querySelector('.popup__type').textContent = PROPERTY_TYPE[type].name;
+  }
   offerCard.querySelector('.popup__text--capacity').textContent = `${rooms} ${roomsText()} ${guests} ${guestsText}`;
   offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 
   /**
    * Features List
    */
+
+  /*   if (features) {
+      const offerFeaturesList = offerTemplate.querySelector('.popup__features');
+      const modifiers = features.map((feature) => `popup__feature--${feature}`);
+      offerFeaturesList.querySelectorAll('.popup__feature')
+        .forEach((item) => {
+          const modifier = item.classList[1];
+          console.log(`modifier:${modifier}`);
+          if (!modifiers.includes(modifier)) {
+            item.remove();
+          }
+        });
+    }
+   */
+
+
+  console.log(singleOffer.offer);
+
+  const offerFeaturesList = offerTemplate.querySelector('.popup__features');
+  offerFeaturesList.innerHTML = '';
+
   if (features) {
-    const offerFeaturesList = offerTemplate.querySelector('.popup__features');
-    const modifiers = features.map((feature) => `popup__feature--${feature}`);
-    offerFeaturesList.querySelectorAll('.popup__feature')
-      .forEach((item) => {
-        const modifier = item.classList[1];
-        if (!modifiers.includes(modifier)) {
-          item.remove();
-        }
-      });
+    for (let i = 0; i < features.length; i++) {
+      console.log(`popup__feature--${features[i]}`);
+      const createFeatureElement = document.createElement('li');
+      // console.log(createFeatureElement);
+      offerFeaturesList.append(createFeatureElement);
+      // console.log(offerFeaturesList);
+      createFeatureElement.classList.add('popup__feature');
+      createFeatureElement.classList.add(`popup__feature--${features[i]}`);
+    }
   }
 
   /**
- * Offer Photos
- */
+  * Offer Photos
+  */
+  if (description) {
+    offerCard.querySelector('.popup__description').textContent = description;
+  }
 
   if (photos) {
-    offerCard.querySelector('.popup__description').textContent = description;
     photos.forEach((photo) => {
       const photoNode = photoCard.cloneNode(true);
       photoNode.src = photo;
@@ -57,10 +85,12 @@ const createCustomOffer = (singleOffer) => {
   photoCard.remove();
 
   /**
- * Avatar image
- */
+  * Avatar image
+  */
 
-  offerCard.querySelector('.popup__avatar').src = singleOffer.avatar;
+  if (avatar) {
+    offerCard.querySelector('.popup__avatar').src = avatar;
+  }
 
   return offerCard;
 };
