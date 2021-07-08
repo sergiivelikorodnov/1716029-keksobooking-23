@@ -26,7 +26,6 @@ const createFetch = (onSuccess, onError, method, url, body = null) => () => {
       if (response.ok) {
         return response.json();
       }
-
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then(onSuccess)
@@ -36,16 +35,17 @@ const createFetch = (onSuccess, onError, method, url, body = null) => () => {
 /**
  * Output data from Fetch
 */
+let allData = [];
 
 const outputProperties = createFetch(
   (data) => {
-    // const data = data.slice(0, 10);
-    //console.log(data.slice(0, 1));
     drawProperties(data.slice(0, MAX_PROPERTY_NUMBER));
     activateFilter();
+    allData = data;
   },
   showAlert,
   'GET', REQUEST_URL);
+
 
 /**
  * Send data fetch
@@ -66,4 +66,4 @@ const sendData = (onSuccess, onFail, method, url, body) => {
     });
 };
 
-export { getData, outputProperties, sendData };
+export { getData, outputProperties, sendData, allData };

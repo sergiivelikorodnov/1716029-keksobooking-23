@@ -7,5 +7,4 @@ import './filter.js';
 
 
 outputProperties();
-
 offerFormSubmit(resetForm);

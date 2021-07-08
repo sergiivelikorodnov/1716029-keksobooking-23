@@ -10,9 +10,9 @@ const createCustomOffer = (singleOffer) => {
   * Условия для склонения слов
   */
   const roomsText = () => {
-    if (singleOffer.offer.rooms === '1') {
+    if (rooms === '1') {
       return 'комната для ';
-    } else if (singleOffer.offer.rooms < 5) {
+    } else if (rooms < 5) {
       return 'комнаты для ';
     } return 'комнат для ';
   };
@@ -36,37 +36,19 @@ const createCustomOffer = (singleOffer) => {
    * Features List
    */
 
-  /*   if (features) {
-      const offerFeaturesList = offerTemplate.querySelector('.popup__features');
-      const modifiers = features.map((feature) => `popup__feature--${feature}`);
-      offerFeaturesList.querySelectorAll('.popup__feature')
-        .forEach((item) => {
-          const modifier = item.classList[1];
-          console.log(`modifier:${modifier}`);
-          if (!modifiers.includes(modifier)) {
-            item.remove();
-          }
-        });
+  const renderFeatures = (featuresArray) => {
+    const offerFeaturesList = offerCard.querySelector('.popup__features');
+    offerFeaturesList.innerHTML = '';
+
+    if (featuresArray) {
+      for (let i = 0; i < featuresArray.length; i++) {
+        const createFeatureElement = document.createElement('li');
+        offerFeaturesList.append(createFeatureElement);
+        createFeatureElement.classList.add('popup__feature');
+        createFeatureElement.classList.add(`popup__feature--${featuresArray[i]}`);
+      }
     }
-   */
-
-
-  console.log(singleOffer.offer);
-
-  const offerFeaturesList = offerTemplate.querySelector('.popup__features');
-  offerFeaturesList.innerHTML = '';
-
-  if (features) {
-    for (let i = 0; i < features.length; i++) {
-      console.log(`popup__feature--${features[i]}`);
-      const createFeatureElement = document.createElement('li');
-      // console.log(createFeatureElement);
-      offerFeaturesList.append(createFeatureElement);
-      // console.log(offerFeaturesList);
-      createFeatureElement.classList.add('popup__feature');
-      createFeatureElement.classList.add(`popup__feature--${features[i]}`);
-    }
-  }
+  };
 
   /**
   * Offer Photos
@@ -75,14 +57,18 @@ const createCustomOffer = (singleOffer) => {
     offerCard.querySelector('.popup__description').textContent = description;
   }
 
-  if (photos) {
-    photos.forEach((photo) => {
-      const photoNode = photoCard.cloneNode(true);
-      photoNode.src = photo;
-      offerCard.querySelector('.popup__photos').appendChild(photoNode);
-    });
-  }
-  photoCard.remove();
+
+  const renderPhotos = (photosArray) => {
+    if (photosArray) {
+      photosArray.forEach((photo) => {
+        const photoNode = photoCard.cloneNode(true);
+        photoNode.src = photo;
+        offerCard.querySelector('.popup__photos').appendChild(photoNode);
+      });
+    }
+    photoCard.remove();
+  };
+
 
   /**
   * Avatar image
@@ -91,6 +77,9 @@ const createCustomOffer = (singleOffer) => {
   if (avatar) {
     offerCard.querySelector('.popup__avatar').src = avatar;
   }
+
+  renderFeatures(features);
+  renderPhotos(photos);
 
   return offerCard;
 };
