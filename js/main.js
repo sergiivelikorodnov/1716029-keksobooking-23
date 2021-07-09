@@ -5,6 +5,5 @@ import { outputProperties } from './fetch.js';
 import { offerFormSubmit, resetForm } from './submit-form.js';
 import './filter.js';
 
-
 outputProperties();
 offerFormSubmit(resetForm);

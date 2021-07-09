@@ -1,5 +1,6 @@
-import { MAX_PROPERTY_NUMBER } from './constants.js';
+import { MAX_PROPERTY_NUMBER, RERENDER_DELAY } from './constants.js';
 import { drawProperties, markerGroup, resetMap } from './map.js';
+import { debounce } from './utils/debounce.js';
 
 import { allData } from './fetch.js';
 
@@ -17,6 +18,12 @@ const filterWasher = housingFeatures.querySelector('#filter-washer');
 const filterElevator = housingFeatures.querySelector('#filter-elevator');
 const filterConditioner = housingFeatures.querySelector('#filter-conditioner');
 
+
+/**
+ * Vaiables
+ *
+ */
+
 let result;
 
 let type = 'any';
@@ -29,6 +36,11 @@ let parking = '';
 let washer = '';
 let elevator = '';
 let conditioner = '';
+
+/**
+ *Conditions
+ *
+ */
 
 const filterHouseType = (typeHouse) => {
   if (typeHouse === 'any') {
@@ -69,12 +81,19 @@ const filterHouseGuests = (guestsHouse) => {
 const filterFeature = (feature) => {
   if (feature) {
     result = result.filter((singleOffer) => singleOffer.offer.features);
-    // console.log(result[2].offer.features);
-    // console.log(feature);
-    // console.log(result[2].offer.features.includes(feature));
+    result = result.filter((singleOffer) => singleOffer.offer.features.includes(feature));
   } else {
     result;
   }
+};
+
+/**
+ * Main Filtering function
+ *
+ */
+
+const debaunceFilter = (data) => {
+  debounce(drawProperties(data), RERENDER_DELAY);
 };
 
 const filterProperties = () => {
@@ -84,18 +103,23 @@ const filterProperties = () => {
   filterHouseRooms(rooms);
   filterHouseGuests(guests);
   filterFeature(wifi);
-  // filterFeature(dishwasher);
-  // filterFeature(parking);
-  // filterFeature(washer);
-  // filterFeature(elevator);
-  // filterFeature(conditioner);
+  filterFeature(dishwasher);
+  filterFeature(parking);
+  filterFeature(washer);
+  filterFeature(elevator);
+  filterFeature(conditioner);
 
   result = result.slice(0, MAX_PROPERTY_NUMBER);
   resetMap();
   markerGroup.clearLayers();
-  drawProperties(result);
+  debaunceFilter(result);
+  //drawProperties(result);
 };
 
+/**
+ * Event Listeners
+ *
+ */
 
 housingType.addEventListener('change', () => {
   type = housingType.value;
@@ -123,30 +147,51 @@ filterWifi.addEventListener('change', () => {
   } else {
     wifi = '';
   }
+  // debounce(filterProperties());
   filterProperties();
 });
 
 filterDishwasher.addEventListener('change', () => {
-  dishwasher = filterDishwasher.checked;
+  if (filterDishwasher.checked) {
+    dishwasher = filterDishwasher.value;
+  } else {
+    dishwasher = '';
+  }
   filterProperties();
 });
 
 filterParking.addEventListener('change', () => {
-  parking = filterParking.checked;
+  if (filterParking.checked) {
+    parking = filterParking.value;
+  } else {
+    parking = '';
+  }
   filterProperties();
 });
 
 filterWasher.addEventListener('change', () => {
-  washer = filterWasher.checked;
+  if (filterWasher.checked) {
+    washer = filterWasher.value;
+  } else {
+    washer = '';
+  }
   filterProperties();
 });
 
 filterElevator.addEventListener('change', () => {
-  elevator = filterElevator.checked;
+  if (filterElevator.checked) {
+    elevator = filterElevator.value;
+  } else {
+    elevator = '';
+  }
   filterProperties();
 });
 
 filterConditioner.addEventListener('change', () => {
-  conditioner = filterConditioner.checked;
+  if (filterConditioner.checked) {
+    conditioner = filterConditioner.value;
+  } else {
+    conditioner = '';
+  }
   filterProperties();
 });
