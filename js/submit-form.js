@@ -8,6 +8,7 @@ import { showAlert } from './utils.js';
 import { sendData } from './fetch.js';
 import './avatar.js';
 import { resetPhoto } from './avatar.js';
+import { resetFilter } from './filter.js';
 
 const offerName = document.querySelector('#title');
 const priceRoom = document.querySelector('#price');
@@ -165,6 +166,7 @@ resetFormButton.addEventListener('click', () => {
   defaultAddress();
   resetMap();
   resetPhoto();
+  resetFilter();
 });
 
 /**
@@ -192,6 +194,7 @@ const resetForm = () => {
   adForm.reset();
   resetMap();
   resetPhoto();
+  resetFilter();
 };
 
 /**

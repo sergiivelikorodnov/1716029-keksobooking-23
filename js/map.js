@@ -3,6 +3,7 @@ import { CENTER_MAP_POSITION, MAIN_PIN_ICON_HEIGTH, MAIN_PIN_ICON_URL, MAIN_PIN_
 import { createCustomOffer } from './offer.js';
 import { deactivateForm, activateForm } from './activate-form.js';
 
+
 /**
  * Центр карты
  */
@@ -29,6 +30,7 @@ const map = L.map('map-canvas')
     lat,
     lng,
   }, 13);
+
 const createCustomPin = (imageUrl, width, heigth) => {
   const customPin = L.icon({
     iconUrl: imageUrl,
@@ -51,7 +53,7 @@ L.tileLayer(
 ).addTo(map);
 
 /**
- * Добавляем красынй маркер, который можно таскать
+ * Добавляем красный маркер, который можно таскать
  */
 
 const mainPinMarker = L.marker(
@@ -69,20 +71,30 @@ const mainPinMarker = L.marker(
  * Перебор всех объявлений и вывод на страницу
  * добавляем маркеры синего цвета
  */
+const markerGroup = L.layerGroup().addTo(map);
 
 const drawProperties = (allProperties) => {
-  allProperties.slice(9).forEach((singleOffer) => {
-    const marker = L.marker({
-      lat: singleOffer.location.lat,
-      lng: singleOffer.location.lng,
-    }, {
-      draggable: false,
-      icon: createCustomPin(OFFER_PIN_ICON_URL, OFFER_PIN_ICON_WIDTH, OFFER_PIN_ICON_HEIGTH),
-    },
+  allProperties.slice().forEach((singleOffer) => {
+    const marker = L.marker(
+      {
+        lat: singleOffer.location.lat,
+        lng: singleOffer.location.lng,
+      },
+      {
+        draggable: false,
+        icon: createCustomPin(OFFER_PIN_ICON_URL, OFFER_PIN_ICON_WIDTH, OFFER_PIN_ICON_HEIGTH),
+      },
     );
+
     marker
-      .addTo(map)
-      .bindPopup(createCustomOffer(singleOffer));
+      .addTo(markerGroup)
+      .bindPopup(
+        createCustomOffer(singleOffer),
+        {
+          keepInView: true,
+        },
+      );
+    return marker;
   });
 };
 
@@ -118,4 +130,4 @@ const resetMap = () => {
   });
 };
 
-export { roomAddress, resetMap, drawProperties };
+export { roomAddress, resetMap, drawProperties, markerGroup };

@@ -1,5 +1,5 @@
 import { activateFilter } from './activate-form.js';
-import { MESSAGE_GET_ERROR, REQUEST_URL } from './constants.js';
+import { MAX_PROPERTY_NUMBER, MESSAGE_GET_ERROR, REQUEST_URL } from './constants.js';
 import { drawProperties } from './map.js';
 import { showAlert } from './utils.js';
 
@@ -26,7 +26,6 @@ const createFetch = (onSuccess, onError, method, url, body = null) => () => {
       if (response.ok) {
         return response.json();
       }
-
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then(onSuccess)
@@ -36,14 +35,17 @@ const createFetch = (onSuccess, onError, method, url, body = null) => () => {
 /**
  * Output data from Fetch
 */
+let allData = [];
 
 const outputProperties = createFetch(
   (data) => {
-    drawProperties(data);
+    drawProperties(data.slice(0, MAX_PROPERTY_NUMBER));
     activateFilter();
+    allData = data;
   },
   showAlert,
   'GET', REQUEST_URL);
+
 
 /**
  * Send data fetch
@@ -64,4 +66,4 @@ const sendData = (onSuccess, onFail, method, url, body) => {
     });
 };
 
-export { getData, outputProperties, sendData };
+export { getData, outputProperties, sendData, allData };
