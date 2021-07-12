@@ -43,11 +43,7 @@ let conditioner = '';
  */
 
 const filterHouseType = (typeHouse) => {
-  if (typeHouse === 'any') {
-    result;
-  } else {
-    result = result.filter((singleOffer) => singleOffer.offer.type === typeHouse);
-  }
+  !typeHouse === 'any' ? result = result.filter((singleOffer) => singleOffer.offer.type === typeHouse) : result;
 };
 
 const filterHousePrice = (priceHouse) => {
@@ -57,44 +53,31 @@ const filterHousePrice = (priceHouse) => {
     result = result.filter((singleOffer) => 50001 > singleOffer.offer.price > 10000);
   } else if (priceHouse === 'high') {
     result = result.filter((singleOffer) => singleOffer.offer.price > 50000);
-  } else {
-    return result;
   }
 };
 
 const filterHouseRooms = (roomsHouse) => {
-  if (roomsHouse === 'any') {
-    result;
-  } else {
-    result = result.filter((singleOffer) => singleOffer.offer.rooms === parseInt(roomsHouse, 10));
-  }
+  !roomsHouse === 'any' ? result = result.filter((singleOffer) => singleOffer.offer.rooms === parseInt(roomsHouse, 10)) : result;
 };
 
 const filterHouseGuests = (guestsHouse) => {
-  if (guestsHouse === 'any') {
-    result;
-  } else {
-    result = result.filter((singleOffer) => singleOffer.offer.guests === parseInt(housingGuests.value, 10));
-  }
+  !guestsHouse === 'any' ? result = result.filter((singleOffer) => singleOffer.offer.guests === parseInt(housingGuests.value, 10)) : result;
 };
 
 const filterFeature = (feature) => {
   if (feature) {
     result = result.filter((singleOffer) => singleOffer.offer.features);
     result = result.filter((singleOffer) => singleOffer.offer.features.includes(feature));
-  } else {
-    result;
   }
 };
 
 /**
  * Main Filtering function
- *
+ * filterApply is debounce function with delay
  */
 
-const debaunceFilter = (data) => {
-  debounce(drawProperties(data), RERENDER_DELAY);
-};
+
+const filterApply = debounce(() => { drawProperties(result); }, RERENDER_DELAY);
 
 const filterProperties = () => {
   result = allData;
@@ -112,8 +95,8 @@ const filterProperties = () => {
   result = result.slice(0, MAX_PROPERTY_NUMBER);
   resetMap();
   markerGroup.clearLayers();
-  debaunceFilter(result);
-  //drawProperties(result);
+
+  filterApply();
 };
 
 /**
@@ -142,56 +125,31 @@ housingGuests.addEventListener('change', () => {
 });
 
 filterWifi.addEventListener('change', () => {
-  if (filterWifi.checked) {
-    wifi = filterWifi.value;
-  } else {
-    wifi = '';
-  }
-  // debounce(filterProperties());
+  filterWifi.checked ? wifi = filterWifi.value : wifi = '';
   filterProperties();
 });
 
 filterDishwasher.addEventListener('change', () => {
-  if (filterDishwasher.checked) {
-    dishwasher = filterDishwasher.value;
-  } else {
-    dishwasher = '';
-  }
+  filterDishwasher.checked ? dishwasher = filterDishwasher.value : dishwasher = '';
   filterProperties();
 });
 
 filterParking.addEventListener('change', () => {
-  if (filterParking.checked) {
-    parking = filterParking.value;
-  } else {
-    parking = '';
-  }
+  filterParking.checked ? parking = filterParking.value : parking = '';
   filterProperties();
 });
 
 filterWasher.addEventListener('change', () => {
-  if (filterWasher.checked) {
-    washer = filterWasher.value;
-  } else {
-    washer = '';
-  }
+  filterWasher.checked ? washer = filterWasher.value : washer = '';
   filterProperties();
 });
 
 filterElevator.addEventListener('change', () => {
-  if (filterElevator.checked) {
-    elevator = filterElevator.value;
-  } else {
-    elevator = '';
-  }
+  filterElevator.checked ? elevator = filterElevator.value : elevator = '';
   filterProperties();
 });
 
 filterConditioner.addEventListener('change', () => {
-  if (filterConditioner.checked) {
-    conditioner = filterConditioner.value;
-  } else {
-    conditioner = '';
-  }
+  filterConditioner.checked ? conditioner = filterConditioner.value : conditioner = '';
   filterProperties();
 });
