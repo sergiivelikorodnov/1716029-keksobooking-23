@@ -1,4 +1,4 @@
-import { MAX_PROPERTY_NUMBER, RERENDER_DELAY } from './constants.js';
+import { MAX_PROPERTY_NUMBER, PROPERTY_PRICE_HIGH, PROPERTY_PRICE_LOW, RERENDER_DELAY } from './constants.js';
 import { drawProperties, markerGroup, resetMap } from './map.js';
 import { debounce } from './utils/debounce.js';
 
@@ -43,25 +43,25 @@ let conditioner = '';
  */
 
 const filterHouseType = (typeHouse) => {
-  !typeHouse === 'any' ? result = result.filter((singleOffer) => singleOffer.offer.type === typeHouse) : result;
+  typeHouse === 'any' ? result : result = result.filter((singleOffer) => singleOffer.offer.type === typeHouse);
 };
 
 const filterHousePrice = (priceHouse) => {
   if (priceHouse === 'low') {
-    result = result.filter((singleOffer) => singleOffer.offer.price < 10001);
+    result = result.filter((singleOffer) => singleOffer.offer.price < PROPERTY_PRICE_LOW);
   } else if (priceHouse === 'medium') {
-    result = result.filter((singleOffer) => 50001 > singleOffer.offer.price > 10000);
+    result = result.filter((singleOffer) => PROPERTY_PRICE_HIGH >= singleOffer.offer.price >= PROPERTY_PRICE_LOW);
   } else if (priceHouse === 'high') {
-    result = result.filter((singleOffer) => singleOffer.offer.price > 50000);
+    result = result.filter((singleOffer) => singleOffer.offer.price > PROPERTY_PRICE_HIGH);
   }
 };
 
 const filterHouseRooms = (roomsHouse) => {
-  !roomsHouse === 'any' ? result = result.filter((singleOffer) => singleOffer.offer.rooms === parseInt(roomsHouse, 10)) : result;
+  roomsHouse === 'any' ? result : result = result.filter((singleOffer) => singleOffer.offer.rooms === parseInt(roomsHouse, 10));
 };
 
 const filterHouseGuests = (guestsHouse) => {
-  !guestsHouse === 'any' ? result = result.filter((singleOffer) => singleOffer.offer.guests === parseInt(housingGuests.value, 10)) : result;
+  guestsHouse === 'any' ? result : result = result.filter((singleOffer) => singleOffer.offer.guests === parseInt(housingGuests.value, 10));
 };
 
 const filterFeature = (feature) => {
@@ -81,6 +81,7 @@ const filterApply = debounce(() => { drawProperties(result); }, RERENDER_DELAY);
 
 const filterProperties = () => {
   result = allData;
+
   filterHouseType(type);
   filterHousePrice(price);
   filterHouseRooms(rooms);
@@ -153,3 +154,37 @@ filterConditioner.addEventListener('change', () => {
   filterConditioner.checked ? conditioner = filterConditioner.value : conditioner = '';
   filterProperties();
 });
+
+/**
+ * Reset Filter
+ *
+ */
+
+const resetFilter = () => {
+  result = allData;
+  housingType.value = 'any';
+  housingPrice.value = 'any';
+  housingRooms.value = 'any';
+  housingGuests.value = 'any';
+  type = 'any';
+  price = 'any';
+  rooms = 'any';
+  guests = 'any';
+  filterWifi.checked = false;
+  wifi = '';
+  filterDishwasher.checked = false;
+  dishwasher = '';
+  filterParking.checked = false;
+  parking = '';
+  filterWasher.checked = false;
+  washer = '';
+  filterElevator.checked = false;
+  elevator = '';
+  filterConditioner.checked = false;
+  conditioner = '';
+
+  filterProperties();
+
+};
+
+export { resetFilter };
