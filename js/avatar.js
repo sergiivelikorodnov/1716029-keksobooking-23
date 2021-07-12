@@ -6,7 +6,7 @@ const photoOfferChooser = document.querySelector('#images');
 const previewOfferPhoto = document.querySelector('.ad-form__photo').querySelector('img');
 
 /**
- * Функция загрузки фотки
+ * Upload image function
  */
 
 
