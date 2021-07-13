@@ -46,7 +46,6 @@ const outputProperties = createFetch(
   showAlert,
   'GET', REQUEST_URL);
 
-
 /**
  * Send data fetch
 */

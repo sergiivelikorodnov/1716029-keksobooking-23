@@ -9,11 +9,11 @@ const selectors = mapFilters.querySelectorAll('select');
    * Disable Form Function
    */
 
-const disableForm = (object, objectClass, collection) => {
+const disableForm = (object, objectClass, collections) => {
   object.classList.add(objectClass);
 
-  collection.forEach((collectionObject) => {
-    collectionObject.disabled = true;
+  collections.forEach((collectionsObject) => {
+    collectionsObject.disabled = true;
   });
 };
 
@@ -21,11 +21,11 @@ const disableForm = (object, objectClass, collection) => {
    * Enable Form Function
    */
 
-const enableForm = (object, objectClass, collection) => {
+const enableForm = (object, objectClass, collections) => {
   object.classList.remove(objectClass);
 
-  collection.forEach((collectionObject) => {
-    collectionObject.disabled = false;
+  collections.forEach((collectionsObject) => {
+    collectionsObject.disabled = false;
   });
 };
 
