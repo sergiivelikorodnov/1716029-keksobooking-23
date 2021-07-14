@@ -5,7 +5,6 @@ import { createFetch } from './fetch.js';
 import { showAlert } from './utils.js';
 import { activateFilter } from './activate-form.js';
 
-
 const mapFiters = document.querySelector('.map__filters');
 const housingType = mapFiters.querySelector('#housing-type');
 const housingPrice = mapFiters.querySelector('#housing-price');
@@ -91,6 +90,7 @@ const filterFeature = (feature) => {
 /**
  * Main Filtering function
  * filterApply is debounce function with delay
+ *
  */
 
 
