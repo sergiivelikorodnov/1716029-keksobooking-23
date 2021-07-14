@@ -1,8 +1,10 @@
-import { MAX_PROPERTY_NUMBER, PROPERTY_PRICE_HIGH, PROPERTY_PRICE_LOW, RERENDER_DELAY } from './constants.js';
+import { MAX_PROPERTY_NUMBER, PROPERTY_PRICE_HIGH, PROPERTY_PRICE_LOW, REQUEST_URL, RERENDER_DELAY } from './constants.js';
 import { drawProperties, markerGroup, resetMap } from './map.js';
 import { debounce } from './utils/debounce.js';
+import { createFetch } from './fetch.js';
+import { showAlert } from './utils.js';
+import { activateFilter } from './activate-form.js';
 
-import { allData } from './fetch.js';
 
 const mapFiters = document.querySelector('.map__filters');
 const housingType = mapFiters.querySelector('#housing-type');
@@ -17,6 +19,21 @@ const filterParking = housingFeatures.querySelector('#filter-parking');
 const filterWasher = housingFeatures.querySelector('#filter-washer');
 const filterElevator = housingFeatures.querySelector('#filter-elevator');
 const filterConditioner = housingFeatures.querySelector('#filter-conditioner');
+
+/**
+ * Output data from Fetch
+*/
+
+let allData = [];
+
+const outputProperties = createFetch(
+  (data) => {
+    drawProperties(data.slice(0, MAX_PROPERTY_NUMBER));
+    activateFilter();
+    allData = data;
+  },
+  showAlert,
+  'GET', REQUEST_URL);
 
 
 /**
@@ -187,4 +204,4 @@ const resetFilter = () => {
 
 };
 
-export { resetFilter };
+export { resetFilter, outputProperties };

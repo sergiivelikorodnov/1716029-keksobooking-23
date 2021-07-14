@@ -36,17 +36,18 @@ const createCustomOffer = (singleOffer) => {
    * Features List
    */
 
-  const renderFeatures = (featuresArray) => {
-    const offerFeaturesList = offerCard.querySelector('.popup__features');
-    offerFeaturesList.innerHTML = '';
 
+  const renderFeatures = (featuresArray) => {
     if (featuresArray) {
-      for (let i = 0; i < featuresArray.length; i++) {
+      const offerFeaturesList = offerCard.querySelector('.popup__features');
+      offerFeaturesList.innerHTML = '';
+
+      featuresArray.forEach((feature) => {
         const createFeatureElement = document.createElement('li');
         offerFeaturesList.append(createFeatureElement);
         createFeatureElement.classList.add('popup__feature');
-        createFeatureElement.classList.add(`popup__feature--${featuresArray[i]}`);
-      }
+        createFeatureElement.classList.add(`popup__feature--${feature}`);
+      });
     }
   };
 

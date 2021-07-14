@@ -1,10 +1,10 @@
 
 import {
   MIN_NAME_LENGTH, MAX_NAME_LENGTH, MAX_ROOM_PRICE, DEFAULT_ROOM_NUMBER, DEFAULT_ROOM_CAPACITY,
-  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGE, CENTER_MAP_POSITION, PROPERTY_TYPE, SEND_DATA_URL, MESSAGE_SEND_ERROR
+  MAX_ROOM_NUMBER, ROOM_VAL_MESSAGES, CENTER_MAP_POSITION, PROPERTY_TYPE, SEND_DATA_URL, MESSAGE_SEND_ERROR, DEFAULT_PROPERTY_TYPE
 } from './constants.js';
 import { resetMap } from './map.js';
-import { showAlert } from './utils.js';
+import { removeEvtListener, showAlert } from './utils.js';
 import { sendData } from './fetch.js';
 import './avatar.js';
 import { resetPhoto } from './avatar.js';
@@ -28,12 +28,12 @@ const { body } = document;
  */
 
 const { lat, lng } = CENTER_MAP_POSITION;
-const defaultAddress = () => {
+const getDefaultAddress = () => {
   roomAddress.setAttribute('value', `${lat}, ${lng}`);
 
 };
 
-defaultAddress();
+getDefaultAddress();
 
 /**
  * Дефолтные значени минимальной цены, кол-ва комнат и людей
@@ -44,7 +44,7 @@ let roomNumberValue = DEFAULT_ROOM_NUMBER;
 let roomCapacityValue = DEFAULT_ROOM_CAPACITY;
 
 if (roomNumberValue < roomCapacityValue) {
-  roomCapacity.setCustomValidity(ROOM_VAL_MESSAGE[0]);
+  roomCapacity.setCustomValidity(ROOM_VAL_MESSAGES[0]);
   roomCapacity.reportValidity();
 }
 
@@ -74,6 +74,23 @@ const checkMinPrice = () => {
   const { value } = typeRoom;
   minPriceRoom = PROPERTY_TYPE[value].price;
   priceRoom.placeholder = PROPERTY_TYPE[value].price;
+
+  const valuePrice = priceRoom.value;
+  let message;
+
+  if (valuePrice > MAX_ROOM_PRICE) {
+    message = `Цена не может быть больше ${MAX_ROOM_PRICE} руб.`;
+  } else if (valuePrice < minPriceRoom) {
+    message = `Цена не может быть меньше ${minPriceRoom} руб.`;
+  } else {
+    message = '';
+  }
+  priceRoom.setCustomValidity(message);
+  priceRoom.reportValidity();
+};
+
+const resetPricePlaceholder = () => {
+  priceRoom.placeholder = PROPERTY_TYPE[DEFAULT_PROPERTY_TYPE].price;
 };
 
 checkMinPrice();
@@ -91,18 +108,7 @@ typeRoom.addEventListener('change', () => {
  */
 
 priceRoom.addEventListener('input', () => {
-  const valuePrice = priceRoom.value;
-  let message;
-
-  if (valuePrice > MAX_ROOM_PRICE) {
-    message = `Цена не может быть больше ${MAX_ROOM_PRICE} руб.`;
-  } else if (valuePrice < minPriceRoom) {
-    message = `Цена не может быть меньше ${minPriceRoom} руб.`;
-  } else {
-    message = '';
-  }
-  priceRoom.setCustomValidity(message);
-  priceRoom.reportValidity();
+  checkMinPrice();
 });
 
 /**
@@ -115,13 +121,13 @@ roomNumber.addEventListener('change', () => {
   let message;
 
   if (roomNumberValue < roomCapacityValue) {
-    message = ROOM_VAL_MESSAGE[0];
+    message = ROOM_VAL_MESSAGES[0];
   } else if (roomNumberValue === MAX_ROOM_NUMBER && roomCapacityValue !== 0) {
-    message = ROOM_VAL_MESSAGE[1];
+    message = ROOM_VAL_MESSAGES[1];
   } else if (roomNumberValue < MAX_ROOM_NUMBER && roomCapacityValue === 0) {
-    message = ROOM_VAL_MESSAGE[2];
+    message = ROOM_VAL_MESSAGES[2];
   } else {
-    message = ROOM_VAL_MESSAGE[3];
+    message = ROOM_VAL_MESSAGES[3];
   }
   roomCapacity.setCustomValidity(message);
   roomCapacity.reportValidity();
@@ -136,11 +142,11 @@ roomCapacity.addEventListener('change', () => {
   roomCapacityValue = Number(roomCapacity.value);
   let message;
   if (roomNumberValue < roomCapacityValue) {
-    message = ROOM_VAL_MESSAGE[0];
+    message = ROOM_VAL_MESSAGES[0];
   } else if (roomNumberValue < MAX_ROOM_NUMBER && roomCapacityValue === 0) {
-    message = ROOM_VAL_MESSAGE[2];
+    message = ROOM_VAL_MESSAGES[2];
   } else {
-    message = ROOM_VAL_MESSAGE[3];
+    message = ROOM_VAL_MESSAGES[3];
   }
   roomCapacity.setCustomValidity(message);
   roomCapacity.reportValidity();
@@ -163,7 +169,8 @@ timeOut.addEventListener('change', () => {
  */
 
 resetFormButton.addEventListener('click', () => {
-  defaultAddress();
+  getDefaultAddress();
+  resetPricePlaceholder();
   resetMap();
   resetPhoto();
   resetFilter();
@@ -173,11 +180,20 @@ resetFormButton.addEventListener('click', () => {
  * Скрытие сообщения об удачной отправке
  */
 
-const successMessageHandler = () => {
+const removeAlert = () => {
   successMessage.remove();
-  body.removeEventListener('keydown', successMessageHandler);
-  body.removeEventListener('click', successMessageHandler);
+  removeEvtListener();
 };
+
+function successMessageHandler() {
+  removeAlert();
+}
+
+function keydownHandler(evt) {
+  if (evt.key === 'Escape') {
+    removeAlert();
+  }
+}
 
 /**
  * Очистка формы при удачной отправке формы
@@ -185,13 +201,10 @@ const successMessageHandler = () => {
 
 const resetForm = () => {
   body.appendChild(successMessage);
-  body.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      successMessageHandler();
-    }
-  });
+  body.addEventListener('keydown', keydownHandler);
   body.addEventListener('click', successMessageHandler);
   adForm.reset();
+  resetPricePlaceholder();
   resetMap();
   resetPhoto();
   resetFilter();
@@ -214,4 +227,4 @@ const offerFormSubmit = (onSuccess) => {
   });
 };
 
-export { roomAddress, resetForm, offerFormSubmit };
+export { roomAddress, resetForm, offerFormSubmit, successMessageHandler, keydownHandler };
