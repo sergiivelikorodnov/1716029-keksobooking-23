@@ -21,6 +21,10 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+/**
+ * Remove Events Listeners after close Alert Message
+ */
+
 const { body } = document;
 
 const removeEvtListener = () => {
