@@ -4,7 +4,7 @@ import {
   MAX_ROOM_NUMBER, ROOM_VAL_MESSAGES, CENTER_MAP_POSITION, PROPERTY_TYPE, SEND_DATA_URL, MESSAGE_SEND_ERROR, DEFAULT_PROPERTY_TYPE
 } from './constants.js';
 import { resetMap } from './map.js';
-import { showAlert } from './utils.js';
+import { removeEvtListener, showAlert } from './utils.js';
 import { sendData } from './fetch.js';
 import './avatar.js';
 import { resetPhoto } from './avatar.js';
@@ -180,19 +180,18 @@ resetFormButton.addEventListener('click', () => {
  * Скрытие сообщения об удачной отправке
  */
 
+const removeAlert = () => {
+  successMessage.remove();
+  removeEvtListener();
+};
 
 function successMessageHandler() {
-  successMessage.remove();
-  body.removeEventListener('click', successMessageHandler);
-  // eslint-disable-next-line no-use-before-define
-  body.removeEventListener('keydown', keydownHandler);
+  removeAlert();
 }
 
 function keydownHandler(evt) {
   if (evt.key === 'Escape') {
-    successMessage.remove();
-    body.removeEventListener('keydown', keydownHandler);
-    body.removeEventListener('click', successMessageHandler);
+    removeAlert();
   }
 }
 
@@ -228,4 +227,4 @@ const offerFormSubmit = (onSuccess) => {
   });
 };
 
-export { roomAddress, resetForm, offerFormSubmit };
+export { roomAddress, resetForm, offerFormSubmit, successMessageHandler, keydownHandler };
