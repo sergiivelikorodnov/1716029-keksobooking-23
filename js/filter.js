@@ -40,7 +40,7 @@ const outputProperties = createFetch(
  *
  */
 
-let result;
+let results;
 
 let type = 'any';
 let price = 'any';
@@ -59,31 +59,31 @@ let conditioner = '';
  */
 
 const filterHouseType = (typeHouse) => {
-  typeHouse === 'any' ? result : result = result.filter((singleOffer) => singleOffer.offer.type === typeHouse);
+  typeHouse === 'any' ? results : results = results.filter((singleOffer) => singleOffer.offer.type === typeHouse);
 };
 
 const filterHousePrice = (priceHouse) => {
   if (priceHouse === 'low') {
-    result = result.filter((singleOffer) => singleOffer.offer.price < PROPERTY_PRICE_LOW);
+    results = results.filter((singleOffer) => singleOffer.offer.price < PROPERTY_PRICE_LOW);
   } else if (priceHouse === 'medium') {
-    result = result.filter((singleOffer) => PROPERTY_PRICE_HIGH >= singleOffer.offer.price >= PROPERTY_PRICE_LOW);
+    results = results.filter((singleOffer) => PROPERTY_PRICE_HIGH >= singleOffer.offer.price >= PROPERTY_PRICE_LOW);
   } else if (priceHouse === 'high') {
-    result = result.filter((singleOffer) => singleOffer.offer.price > PROPERTY_PRICE_HIGH);
+    results = results.filter((singleOffer) => singleOffer.offer.price > PROPERTY_PRICE_HIGH);
   }
 };
 
 const filterHouseRooms = (roomsHouse) => {
-  roomsHouse === 'any' ? result : result = result.filter((singleOffer) => singleOffer.offer.rooms === parseInt(roomsHouse, 10));
+  roomsHouse === 'any' ? results : results = results.filter((singleOffer) => singleOffer.offer.rooms === parseInt(roomsHouse, 10));
 };
 
 const filterHouseGuests = (guestsHouse) => {
-  guestsHouse === 'any' ? result : result = result.filter((singleOffer) => singleOffer.offer.guests === parseInt(housingGuests.value, 10));
+  guestsHouse === 'any' ? results : results = results.filter((singleOffer) => singleOffer.offer.guests === parseInt(housingGuests.value, 10));
 };
 
 const filterFeature = (feature) => {
   if (feature) {
-    result = result.filter((singleOffer) => singleOffer.offer.features);
-    result = result.filter((singleOffer) => singleOffer.offer.features.includes(feature));
+    results = results.filter((singleOffer) => singleOffer.offer.features);
+    results = results.filter((singleOffer) => singleOffer.offer.features.includes(feature));
   }
 };
 
@@ -94,10 +94,10 @@ const filterFeature = (feature) => {
  */
 
 
-const filterApply = debounce(() => { drawProperties(result); }, RERENDER_DELAY);
+const filterApply = debounce(() => { drawProperties(results); }, RERENDER_DELAY);
 
 const filterProperties = () => {
-  result = allData;
+  results = allData;
 
   filterHouseType(type);
   filterHousePrice(price);
@@ -110,7 +110,7 @@ const filterProperties = () => {
   filterFeature(elevator);
   filterFeature(conditioner);
 
-  result = result.slice(0, MAX_PROPERTY_NUMBER);
+  results = results.slice(0, MAX_PROPERTY_NUMBER);
   resetMap();
   markerGroup.clearLayers();
 
@@ -178,7 +178,7 @@ filterConditioner.addEventListener('change', () => {
  */
 
 const resetFilter = () => {
-  result = allData;
+  results = allData;
   housingType.value = 'any';
   housingPrice.value = 'any';
   housingRooms.value = 'any';
